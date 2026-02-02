@@ -12,11 +12,13 @@ import {
 import { Link, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import { useLoginUserMutation } from "../../redux/features/users/userApi";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { loginUserFunc } = useAuth();
+  const [loginUser] = useLoginUserMutation();
   const {
     register,
     handleSubmit,
@@ -28,21 +30,22 @@ const Login = () => {
 
     try {
       await loginUserFunc(email, password);
+      const result = await loginUser({ email, password }).unwrap();
 
       Swal.fire({
         icon: "success",
         title: "Welcome Back!",
-        text: `You have successfully logged in!`,
+        text: `Hello ${result.user?.name || "User"}!`,
         timer: 2000,
         showConfirmButton: false,
       });
 
-      navigate("/"); // redirect to home
+      navigate("/");
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Login Failed",
-        text: error.message,
+        text: error.data?.message || error.message || "Something went wrong",
       });
     }
   };

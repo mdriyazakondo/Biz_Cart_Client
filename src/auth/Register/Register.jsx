@@ -12,14 +12,17 @@ import {
   AiOutlineArrowLeft,
 } from "react-icons/ai";
 import { Link, useNavigate } from "react-router";
-import useAuth from "../../hooks/useAuth";
-import Swal from "sweetalert2";
 import { updateProfile } from "firebase/auth";
+import Swal from "sweetalert2";
+import { imageUpload } from "../../utils";
+import { useCreateUserMutation } from "../../redux/features/users/userApi";
+import useAuth from "../../hooks/useAuth";
 
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const navigate = useNavigate();
+  const [createUser] = useCreateUserMutation();
   const { createUserFunc } = useAuth();
 
   const {
@@ -33,7 +36,8 @@ const Register = () => {
   const passwordValue = watch("password");
 
   const onSubmit = async (data) => {
-    const { fullName, email, password, confirmPassword, image } = data;
+    const { fullName, email, password, confirmPassword } = data;
+    let photoURL = null;
 
     if (password !== confirmPassword) {
       Swal.fire({
@@ -44,27 +48,26 @@ const Register = () => {
       return;
     }
 
+    if (data.image && data.image[0]) {
+      photoURL = await imageUpload(data.image[0]);
+    }
+
     try {
-      // 1️⃣ Create user with email & password
       const userCredential = await createUserFunc(email, password);
       const user = userCredential.user;
 
-      // 2️⃣ Upload image if exists (optional: here we assume file input)
-      let photoURL = "";
-      if (image && image[0]) {
-        const file = image[0];
-        // For simplicity, we can use URL.createObjectURL (only for local preview)
-        // In production you should upload to Firebase Storage and get download URL
-        photoURL = URL.createObjectURL(file);
-      }
-
-      // 3️⃣ Update profile with name & photo
       await updateProfile(user, {
         displayName: fullName,
         photoURL: photoURL || null,
       });
 
-      // 4️⃣ Success alert
+      await createUser({
+        name: fullName,
+        email,
+        password,
+        image: photoURL,
+      }).unwrap();
+
       Swal.fire({
         icon: "success",
         title: "Account Created!",
@@ -74,12 +77,12 @@ const Register = () => {
       });
 
       reset();
-      navigate("/"); // redirect after registration
+      navigate("/");
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Registration Failed",
-        text: error.message,
+        text: error?.data?.message || error.message,
       });
     }
   };
@@ -117,12 +120,17 @@ const Register = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-cols-1 md:grid-cols-2 gap-5"
         >
+          {/* Full Name */}
           <div className="space-y-1.5 md:col-span-2">
             <label className="text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">
               Full Name
             </label>
             <div
-              className={`flex items-center bg-white border-2 rounded-2xl px-4 py-0.5 transition-all duration-300 ${errors.fullName ? "border-red-400 shadow-[0_0_0_4px_rgba(248,113,113,0.1)]" : "border-slate-100 focus-within:border-[#1D4ED8] focus-within:shadow-[0_0_0_4px_rgba(29,78,216,0.1)]"}`}
+              className={`flex items-center bg-white border-2 rounded-2xl px-4 py-0.5 transition-all duration-300 ${
+                errors.fullName
+                  ? "border-red-400 shadow-[0_0_0_4px_rgba(248,113,113,0.1)]"
+                  : "border-slate-100 focus-within:border-[#1D4ED8] focus-within:shadow-[0_0_0_4px_rgba(29,78,216,0.1)]"
+              }`}
             >
               <AiOutlineUser className="text-slate-400" size={18} />
               <input
@@ -133,12 +141,17 @@ const Register = () => {
             </div>
           </div>
 
+          {/* Email */}
           <div className="space-y-1.5 md:col-span-2">
             <label className="text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">
               Email Address
             </label>
             <div
-              className={`flex items-center bg-white border-2 rounded-2xl px-4 py-0.5 transition-all duration-300 ${errors.email ? "border-red-400 shadow-[0_0_0_4px_rgba(248,113,113,0.1)]" : "border-slate-100 focus-within:border-[#1D4ED8] focus-within:shadow-[0_0_0_4px_rgba(29,78,216,0.1)]"}`}
+              className={`flex items-center bg-white border-2 rounded-2xl px-4 py-0.5 transition-all duration-300 ${
+                errors.email
+                  ? "border-red-400 shadow-[0_0_0_4px_rgba(248,113,113,0.1)]"
+                  : "border-slate-100 focus-within:border-[#1D4ED8] focus-within:shadow-[0_0_0_4px_rgba(29,78,216,0.1)]"
+              }`}
             >
               <AiOutlineMail className="text-slate-400" size={18} />
               <input
@@ -152,12 +165,17 @@ const Register = () => {
             </div>
           </div>
 
+          {/* Password */}
           <div className="space-y-1.5">
             <label className="text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">
               Password
             </label>
             <div
-              className={`flex items-center bg-white border-2 rounded-2xl px-4 py-0.5 transition-all duration-300 ${errors.password ? "border-red-400 shadow-[0_0_0_4px_rgba(248,113,113,0.1)]" : "border-slate-100 focus-within:border-[#1D4ED8] focus-within:shadow-[0_0_0_4px_rgba(29,78,216,0.1)]"}`}
+              className={`flex items-center bg-white border-2 rounded-2xl px-4 py-0.5 transition-all duration-300 ${
+                errors.password
+                  ? "border-red-400 shadow-[0_0_0_4px_rgba(248,113,113,0.1)]"
+                  : "border-slate-100 focus-within:border-[#1D4ED8] focus-within:shadow-[0_0_0_4px_rgba(29,78,216,0.1)]"
+              }`}
             >
               <AiOutlineLock className="text-slate-400" size={18} />
               <input
@@ -183,12 +201,17 @@ const Register = () => {
             </div>
           </div>
 
+          {/* Confirm Password */}
           <div className="space-y-1.5">
             <label className="text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">
               Confirm
             </label>
             <div
-              className={`flex items-center bg-white border-2 rounded-2xl px-4 py-0.5 transition-all duration-300 ${errors.confirmPassword ? "border-red-400 shadow-[0_0_0_4px_rgba(248,113,113,0.1)]" : "border-slate-100 focus-within:border-[#1D4ED8] focus-within:shadow-[0_0_0_4px_rgba(29,78,216,0.1)]"}`}
+              className={`flex items-center bg-white border-2 rounded-2xl px-4 py-0.5 transition-all duration-300 ${
+                errors.confirmPassword
+                  ? "border-red-400 shadow-[0_0_0_4px_rgba(248,113,113,0.1)]"
+                  : "border-slate-100 focus-within:border-[#1D4ED8] focus-within:shadow-[0_0_0_4px_rgba(29,78,216,0.1)]"
+              }`}
             >
               <AiOutlineLock className="text-slate-400" size={18} />
               <input
@@ -214,6 +237,7 @@ const Register = () => {
             </div>
           </div>
 
+          {/* Profile Picture */}
           <div className="space-y-1.5 md:col-span-2">
             <label className="text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">
               Profile Picture
@@ -232,6 +256,7 @@ const Register = () => {
             </label>
           </div>
 
+          {/* Submit Button */}
           <div className="md:col-span-2 pt-4">
             <button
               type="submit"

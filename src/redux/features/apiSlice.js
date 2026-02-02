@@ -1,14 +1,8 @@
-import { fetchBaseQuery } from "@reduxjs/toolkit/query";
+import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:3000/",
-  prepareHeaders: (headers) => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
-    }
-    return headers;
-  },
+  baseUrl: "http://localhost:3000/api/",
+  credentials: "include",
 });
 
 export const baseQueryWithReauth = async (args, api, extraOptions) => {
@@ -18,9 +12,9 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
     result.error &&
     (result.error.status === 401 || result.error.status === 403)
   ) {
-    console.log("Token expired, logging out...");
-    localStorage.removeItem("accessToken");
+    console.log("Unauthorized, redirecting to login...");
     window.location.href = "/auth/login";
   }
+
   return result;
 };

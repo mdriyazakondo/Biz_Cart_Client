@@ -5,7 +5,6 @@ export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: baseQueryWithReauth,
   tagTypes: ["users"],
-
   endpoints: (builder) => ({
     getAllUsers: builder.query({
       query: () => ({
@@ -16,13 +15,33 @@ export const userApi = createApi({
     }),
     createUser: builder.mutation({
       query: (data) => ({
-        url: "users",
+        url: "auth/register",
         method: "POST",
         body: data,
+      }),
+      invalidatesTags: ["users"],
+    }),
+    loginUser: builder.mutation({
+      query: (data) => ({
+        url: "auth/login",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["users"],
+    }),
+    logoutUser: builder.mutation({
+      query: () => ({
+        url: "auth/logout",
+        method: "POST",
       }),
       invalidatesTags: ["users"],
     }),
   }),
 });
 
-export const { useGetAllUsersQuery, useCreateUserMutation } = userApi;
+export const {
+  useGetAllUsersQuery,
+  useCreateUserMutation,
+  useLoginUserMutation,
+  useLogoutUserMutation,
+} = userApi;

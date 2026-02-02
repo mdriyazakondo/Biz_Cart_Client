@@ -16,6 +16,7 @@ import {
 import { Link } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import { useLogoutUserMutation } from "../../redux/features/users/userApi";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -23,7 +24,7 @@ const Navbar = () => {
   const [mobileDeptOpen, setMobileDeptOpen] = useState(false);
   const [desktopDeptOpen, setDesktopDeptOpen] = useState(false);
   const { users, logoutUserFunc } = useAuth();
-
+  const [logoutUser] = useLogoutUserMutation();
   // Scroll shadow
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -50,6 +51,7 @@ const Navbar = () => {
     });
 
     if (result.isConfirmed) {
+      await logoutUser();
       try {
         await logoutUserFunc();
         Swal.fire({
@@ -196,7 +198,8 @@ const Navbar = () => {
               Best Sellers
             </li>
             <li className="ml-auto text-green-600 font-black animate-pulse flex items-center justify-center gap-1">
-              <div className="w-3 h-3 rounded-full bg-green-500"></div> Flash Sale
+              <div className="w-3 h-3 rounded-full bg-green-500"></div> Flash
+              Sale
             </li>
           </ul>
         </div>
