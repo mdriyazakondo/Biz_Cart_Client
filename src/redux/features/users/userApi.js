@@ -8,11 +8,20 @@ export const userApi = createApi({
   endpoints: (builder) => ({
     getAllUsers: builder.query({
       query: () => ({
-        url: "users",
+        url: "auth/all-users",
         method: "GET",
       }),
       providesTags: ["users"],
     }),
+
+    getRoleByUser: builder.query({
+      query: ({ email }) => ({
+        url: `auth/users-role/${encodeURIComponent(email)}`,
+        method: "GET",
+      }),
+      providesTags: ["users"],
+    }),
+
     createUser: builder.mutation({
       query: (data) => ({
         url: "auth/register",
@@ -44,4 +53,5 @@ export const {
   useCreateUserMutation,
   useLoginUserMutation,
   useLogoutUserMutation,
+  useGetRoleByUserQuery,
 } = userApi;

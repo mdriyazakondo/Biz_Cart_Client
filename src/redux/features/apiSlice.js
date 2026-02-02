@@ -12,8 +12,7 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
     result.error &&
     (result.error.status === 401 || result.error.status === 403)
   ) {
-    console.log("Unauthorized, redirecting to login...");
-    window.location.href = "/auth/login";
+    window.location.href = "/";
   }
 
   return result;

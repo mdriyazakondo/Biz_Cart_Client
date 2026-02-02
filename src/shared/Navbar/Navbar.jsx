@@ -16,7 +16,11 @@ import {
 import { Link } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
-import { useLogoutUserMutation } from "../../redux/features/users/userApi";
+import {
+  useGetAllUsersQuery,
+  useGetRoleByUserQuery,
+  useLogoutUserMutation,
+} from "../../redux/features/users/userApi";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -25,20 +29,24 @@ const Navbar = () => {
   const [desktopDeptOpen, setDesktopDeptOpen] = useState(false);
   const { users, logoutUserFunc } = useAuth();
   const [logoutUser] = useLogoutUserMutation();
-  // Scroll shadow
+
+  const { data, error, isLoading } = useGetRoleByUserQuery(
+    { email: users?.email },
+    { skip: !users?.email },
+  );
+  console.log("role", data);
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Body scroll lock for mobile menu
   useEffect(() => {
     document.body.style.overflow = nav ? "hidden" : "auto";
     return () => (document.body.style.overflow = "auto");
   }, [nav]);
 
-  // Logout handler
   const handleLogout = async () => {
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -76,7 +84,6 @@ const Navbar = () => {
         scrolled ? "bg-white/95 backdrop-blur shadow-md" : "bg-white"
       }`}
     >
-      {/* TOP BAR */}
       <div className="hidden sm:flex justify-between items-center bg-slate-900 text-slate-300 px-4 md:px-10 py-2 text-xs">
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2 border-r border-slate-700 pr-4">
@@ -125,6 +132,11 @@ const Navbar = () => {
           <div className="flex items-center gap-3">
             {users ? (
               <div className="flex items-center gap-2 bg-gray-50 p-1 rounded-full">
+                <Link to={"/dashboard"}>
+                  <button className="flex items-center gap-2 bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-slate-900 cursor-pointer">
+                    Dashboard
+                  </button>
+                </Link>
                 <img
                   src={users.photoURL}
                   alt="user"
