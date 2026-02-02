@@ -9,8 +9,7 @@ const useRole = () => {
     { skip: !users?.email },
   );
 
-  const roleUser = data?.user?.role;
-  console.log("role", roleUser);
+  const roleUser = data?.user;
 
   return { roleUser, error, isLoading };
 };

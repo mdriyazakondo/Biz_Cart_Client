@@ -1,0 +1,103 @@
+import {
+  FiLogOut,
+  FiGrid,
+  FiActivity,
+  FiUsers,
+  FiSettings,
+} from "react-icons/fi";
+import { Link } from "react-router";
+import SidebarItem from "./SidebarItem";
+import useAuth from "../../hooks/useAuth";
+import { useLogoutUserMutation } from "../../redux/features/users/userApi";
+import Swal from "sweetalert2";
+import { IoMdAddCircleOutline } from "react-icons/io";
+
+const Sidebar = ({ setSidebarOpen, sidebarOpen }) => {
+  const { logoutUserFunc } = useAuth();
+  const [logoutUser] = useLogoutUserMutation();
+  const handleLogout = async () => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to log out?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, logout",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      await logoutUser();
+      try {
+        await logoutUserFunc();
+        Swal.fire({
+          icon: "success",
+          title: "Logged Out",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Logout Failed",
+          text: error.message,
+        });
+      }
+    }
+  };
+
+  return (
+    <aside
+      className={`fixed lg:relative z-50 w-64 bg-[#0f172a] h-full border-r border-slate-800 transition-transform ${
+        sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+      }`}
+    >
+      {/* LOGO */}
+      <div className="h-20 flex items-center px-8 border-b border-slate-800">
+        <Link to="/" className="text-xl font-bold text-white">
+          BIZ<span className="text-blue-500">CART</span>
+        </Link>
+      </div>
+
+      {/* NAV */}
+      <nav className="px-4 py-6 space-y-1 min-h-[85vh]">
+        <SidebarItem
+          onClick={() => setSidebarOpen(false)}
+          to=""
+          icon={FiGrid}
+          label="Overview"
+        />
+        <SidebarItem
+          onClick={() => setSidebarOpen(false)}
+          to="/dashboard/add-products"
+          icon={IoMdAddCircleOutline}
+          label="Add Product"
+        />
+        <SidebarItem
+          onClick={() => setSidebarOpen(false)}
+          to="customers"
+          icon={FiUsers}
+          label="Customers"
+        />
+        <SidebarItem
+          onClick={() => setSidebarOpen(false)}
+          to="settings"
+          icon={FiSettings}
+          label="Settings"
+        />
+      </nav>
+
+      {/* LOGOUT */}
+      <div className="p-4 border-t border-slate-800">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 text-red-400 hover:text-red-500 transition"
+        >
+          <FiLogOut size={18} /> Logout
+        </button>
+      </div>
+    </aside>
+  );
+};
+
+export default Sidebar;

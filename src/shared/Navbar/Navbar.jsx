@@ -17,7 +17,6 @@ import { Link } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import {
-  useGetAllUsersQuery,
   useGetRoleByUserQuery,
   useLogoutUserMutation,
 } from "../../redux/features/users/userApi";
@@ -30,11 +29,11 @@ const Navbar = () => {
   const { users, logoutUserFunc } = useAuth();
   const [logoutUser] = useLogoutUserMutation();
 
-  const { data, error, isLoading } = useGetRoleByUserQuery(
+  const { data } = useGetRoleByUserQuery(
     { email: users?.email },
     { skip: !users?.email },
   );
-  console.log("role", data);
+  const role = data?.user;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
