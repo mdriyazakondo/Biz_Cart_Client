@@ -218,7 +218,7 @@ const AddProducts = () => {
                     <input
                       type="number"
                       {...register("discountPrice")}
-                      className="w-full bg-[#1e293b]/30 text-white p-4 rounded-xl border border-gray-800 outline-none focus:ring-2 focus:ring-blue-500 text-emerald-400"
+                      className="w-full bg-[#1e293b]/30 text-white p-4 rounded-xl border border-gray-800 outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="0.00"
                     />
                   </div>
@@ -249,7 +249,7 @@ const AddProducts = () => {
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black py-5 rounded-2xl transition-all shadow-2xl shadow-blue-900/40 uppercase tracking-[4px] text-lg active:scale-95"
+                className="w-full bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black py-5 rounded-2xl transition-all shadow-2xl shadow-blue-900/40 uppercase tracking-[4px] text-lg active:scale-95"
               >
                 Publish Product
               </button>
