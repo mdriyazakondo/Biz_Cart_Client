@@ -86,10 +86,10 @@ const BestSellers = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="group bg-white rounded-4xl border border-slate-100 p-4 transition-all duration-500 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.08)]"
+              className="group bg-white rounded-xl border border-slate-100 p-4 transition-all duration-500 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.08)]"
             >
               {/* Image Container */}
-              <div className="relative h-60 w-full rounded-3xl overflow-hidden bg-slate-50">
+              <div className="relative h-60 w-full rounded-xl overflow-hidden bg-slate-50">
                 <img
                   src={product.image}
                   alt={product.name}

@@ -9,7 +9,7 @@ const ProductCart = ({ product }) => {
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       whileHover={{ y: -8 }}
-      className="bg-white rounded-3xl border border-slate-100 overflow-hidden group shadow-sm hover:shadow-2xl transition-all duration-500"
+      className="bg-white rounded-xl border border-slate-100 overflow-hidden group shadow-sm hover:shadow-2xl transition-all duration-500"
     >
       {/* Top Image & Badge */}
       <div className="relative h-56 overflow-hidden">

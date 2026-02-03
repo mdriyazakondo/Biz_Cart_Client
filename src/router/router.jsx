@@ -6,6 +6,8 @@ import Register from "../auth/Register/Register";
 import DashboardLayout from "../layout/DashboardLayout/DashboardLayout";
 import AddProducts from "../pages/Dashboard/AddProducts/AddProducts";
 import Profile from "../pages/Dashboard/Profile/Profile";
+import Customers from "../pages/Dashboard/Admin/Customers/Customers";
+import MyProduct from "../pages/Dashboard/MyProduct/MyProduct";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +28,8 @@ export const router = createBrowserRouter([
       { path: "overview", element: <h3>Dashboard layout</h3> },
       { path: "add-products", element: <AddProducts /> },
       { path: "settings", element: <Profile /> },
+      { path: "customers", element: <Customers /> },
+      { path: "my-products", element: <MyProduct /> },
     ],
   },
 ]);

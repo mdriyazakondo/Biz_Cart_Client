@@ -11,7 +11,7 @@ const DealsSection = () => {
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-7 relative overflow-hidden rounded-[3rem] bg-[#0f172a] p-8 md:p-16 flex flex-col justify-center min-h-125"
+            className="lg:col-span-7 relative overflow-hidden rounded-2xl bg-[#0f172a] p-8 md:p-16 flex flex-col justify-center min-h-125"
           >
             <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#d97706] opacity-10 rounded-full blur-3xl"></div>
             <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-blue-500 opacity-10 rounded-full blur-3xl"></div>
@@ -54,7 +54,7 @@ const DealsSection = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-[#d97706] text-white px-10 py-4 rounded-2xl font-black flex items-center gap-3 shadow-xl shadow-amber-900/20"
+                className="bg-[#d97706] text-white px-10 py-4 rounded-xl font-black flex items-center gap-3 shadow-xl shadow-amber-900/20"
               >
                 GRAB THE DEAL <FiArrowRight strokeWidth={3} />
               </motion.button>
@@ -72,7 +72,7 @@ const DealsSection = () => {
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="flex-1 bg-slate-50 rounded-[2.5rem] p-8 relative overflow-hidden group border border-slate-100"
+              className="flex-1 bg-slate-50 rounded-2xl p-8 relative overflow-hidden group border border-slate-100"
             >
               <div className="relative z-10">
                 <span className="text-[#0f172a] font-black text-xs uppercase tracking-widest bg-white px-3 py-1 rounded-full border border-slate-200">
@@ -100,7 +100,7 @@ const DealsSection = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="flex-1 bg-[#fffbeb] rounded-[2.5rem] p-8 relative overflow-hidden group border border-[#fef3c7]"
+              className="flex-1 bg-[#fffbeb] rounded-2xl p-8 relative overflow-hidden group border border-[#fef3c7]"
             >
               <div className="relative z-10">
                 <span className="text-[#d97706] font-black text-xs uppercase tracking-widest bg-white px-3 py-1 rounded-full border border-amber-100">

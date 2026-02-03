@@ -80,7 +80,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-[#0f172a] flex items-center justify-center p-6">
-      <div className="max-w-md w-full bg-[#1e293b] rounded-4xl shadow-2xl border border-gray-800/50 overflow-hidden">
+      <div className="max-w-2xl w-full bg-[#1e293b] rounded-4xl shadow-2xl border border-gray-800/50 overflow-hidden">
         <div className="h-32 bg-linear-to-tr from-blue-600 via-indigo-600 to-purple-600"></div>
         <div className="px-8 pb-10">
           <div className="relative -mt-16 mb-6 flex justify-center">
@@ -130,14 +130,14 @@ const Profile = () => {
           <div className="grid grid-cols-2 gap-4 mt-8">
             <button
               onClick={() => setIsEditModalOpen(true)}
-              className="flex items-center justify-center gap-2 py-3 bg-white/5 hover:bg-white/10 text-white rounded-2xl"
+              className="cursor-pointer flex items-center justify-center gap-2 py-3 bg-white/5 hover:bg-white/10 text-white rounded-2xl"
             >
               <Edit3 size={18} className="text-blue-400" />
               Edit
             </button>
             <button
               onClick={logoutUserFunc}
-              className="flex items-center justify-center gap-2 py-3 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white rounded-2xl"
+              className="cursor-pointer flex items-center justify-center gap-2 py-3 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white rounded-2xl"
             >
               <LogOut size={18} />
               Logout
@@ -157,7 +157,7 @@ const Profile = () => {
                   setPreview(null);
                   setSelectedFile(null);
                 }}
-                className="text-gray-400 hover:text-white"
+                className="text-gray-400 hover:text-white cursor-pointer"
               >
                 <X size={22} />
               </button>
@@ -208,7 +208,7 @@ const Profile = () => {
               <button
                 disabled={isLoading}
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-2xl flex items-center justify-center gap-2"
+                className="w-full cursor-pointer bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-2xl flex items-center justify-center gap-2"
               >
                 <Check size={18} />
                 {isLoading ? "Saving..." : "Save Changes"}

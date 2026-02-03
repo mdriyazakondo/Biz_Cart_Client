@@ -78,7 +78,7 @@ const NewArrivals = () => {
               className="group cursor-pointer"
             >
               {/* Image Box */}
-              <div className="relative aspect-3/4 rounded-[2.5rem] overflow-hidden bg-slate-100 mb-6 shadow-sm border border-slate-50">
+              <div className="relative aspect-3/4 rounded-2xl overflow-hidden bg-slate-100 mb-6 shadow-sm border border-slate-50">
                 <img
                   src={item.image}
                   alt={item.name}

@@ -81,6 +81,12 @@ const Sidebar = ({ setSidebarOpen, sidebarOpen }) => {
         />
         <SidebarItem
           onClick={() => setSidebarOpen(false)}
+          to="my-products"
+          icon={FiUsers}
+          label="MY Products"
+        />
+        <SidebarItem
+          onClick={() => setSidebarOpen(false)}
           to="settings"
           icon={FiSettings}
           label="Settings"

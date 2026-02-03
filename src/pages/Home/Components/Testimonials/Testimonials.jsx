@@ -81,7 +81,7 @@ const TestimonialSection = () => {
           {infiniteReviews.map((review, idx) => (
             <div
               key={idx}
-              className={`inline-block w-87.5 md:w-112.5 ${review.color} p-10 rounded-[2.5rem] border border-slate-100 hover:border-[#d97706] transition-all duration-500 group-hover:pause`}
+              className={`inline-block w-87.5 md:w-112.5 ${review.color} p-10 rounded-xl border border-slate-100 hover:border-[#d97706] transition-all duration-500 group-hover:pause`}
             >
               <div className="flex gap-1 mb-6">
                 {[...Array(5)].map((_, i) => (

@@ -11,7 +11,7 @@ const Newsletter = () => {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative overflow-hidden bg-[#0f172a] rounded-[3.5rem] p-8 md:p-20 shadow-[0_40px_100px_-20px_rgba(15,23,42,0.3)]"
+          className="relative overflow-hidden bg-[#0f172a] rounded-2xl p-8 md:p-20 shadow-[0_40px_100px_-20px_rgba(15,23,42,0.3)]"
         >
           {/* Background Abstract Glow */}
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#d97706] opacity-[0.08] blur-[100px] rounded-full"></div>
