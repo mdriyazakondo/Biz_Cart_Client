@@ -10,6 +10,8 @@ import Customers from "../pages/Dashboard/Admin/Customers/Customers";
 import MyProduct from "../pages/Dashboard/MyProduct/MyProduct";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import AllProducts from "../pages/AllProducts/AllProducts";
+import WishlistPage from "../pages/WishList/WishList";
+import AddToCart from "../pages/AddToCart/AddToCart";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +22,8 @@ export const router = createBrowserRouter([
       { path: "add-products", element: <AddProducts /> },
       { path: "products", element: <AllProducts /> },
       { path: "products/:productId", element: <ProductDetails /> },
+      { path: "wish-list", element: <WishlistPage /> },
+      { path: "add-to-cart", element: <AddToCart /> },
     ],
   },
   { path: "auth/login", element: <Login /> },

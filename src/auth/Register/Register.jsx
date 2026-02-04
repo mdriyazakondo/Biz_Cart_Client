@@ -44,6 +44,8 @@ const Register = () => {
         icon: "error",
         title: "Oops...",
         text: "Passwords do not match!",
+        background: "#020617", // Matches theme
+        color: "#fff",
       });
       return;
     }
@@ -53,6 +55,13 @@ const Register = () => {
     }
 
     try {
+      await createUser({
+        name: fullName,
+        email,
+        password,
+        image: photoURL,
+      }).unwrap();
+
       const userCredential = await createUserFunc(email, password);
       const user = userCredential.user;
 
@@ -61,19 +70,14 @@ const Register = () => {
         photoURL: photoURL || null,
       });
 
-      await createUser({
-        name: fullName,
-        email,
-        password,
-        image: photoURL,
-      }).unwrap();
-
       Swal.fire({
         icon: "success",
         title: "Account Created!",
         text: `Welcome, ${fullName}`,
         timer: 2000,
         showConfirmButton: false,
+        background: "#020617", // Matches theme
+        color: "#fff",
       });
 
       reset();
@@ -83,173 +87,195 @@ const Register = () => {
         icon: "error",
         title: "Registration Failed",
         text: error?.data?.message || error.message,
+        background: "#020617", // Matches theme
+        color: "#fff",
       });
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center py-16 px-4 font-sans relative overflow-hidden">
+    // Main Container with the requested #020617 background
+    <div className="min-h-screen bg-[#020617] flex items-center justify-center py-12 px-4 font-sans relative overflow-hidden text-slate-200">
+      {/* Background Glow Effects - Adjusted for better blend with #020617 */}
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] z-0 pointer-events-none animate-pulse"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[120px] z-0 pointer-events-none"></div>
+
+      {/* Back Button */}
       <button
         onClick={() => navigate(-1)}
-        className="absolute top-8 left-8 z-20 flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md border border-slate-100 rounded-full shadow-sm text-slate-600 hover:text-[#1D4ED8] hover:shadow-md transition-all group"
+        className="absolute top-6 left-6 md:top-10 md:left-10 z-20 flex items-center gap-2 px-5 py-2.5 bg-[#0f172a]/50 backdrop-blur-md border border-slate-800 rounded-full text-slate-400 hover:text-white hover:border-blue-500/50 hover:bg-blue-500/10 transition-all group"
       >
         <AiOutlineArrowLeft className="group-hover:-translate-x-1 transition-transform" />
-        <span className="text-[10px] font-black uppercase tracking-widest">
+        <span className="text-[10px] font-bold uppercase tracking-widest">
           Back
         </span>
       </button>
 
-      <div className="absolute top-[-10%] left-[-10%] w-125 h-125 bg-[#1D4ED8]/5 rounded-full blur-[120px] z-0"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-125 h-125 bg-[#FBBF24]/5 rounded-full blur-[120px] z-0"></div>
-
-      <div className="max-w-2xl w-full bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] p-8 md:p-12 border border-white relative z-10">
+      {/* Main Glass Card */}
+      <div className="max-w-2xl w-full bg-[#0f172a]/40 backdrop-blur-2xl rounded-[2rem] border border-white/5 shadow-2xl p-8 md:p-12 relative z-10">
+        {/* Header Section */}
         <div className="text-center mb-10">
-          <div className="inline-block px-4 py-1.5 rounded-full bg-blue-50 text-[#1D4ED8] text-[10px] font-black uppercase tracking-widest mb-4">
-            New Account
+          <div className="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-black uppercase tracking-[0.2em] mb-4 shadow-[0_0_15px_rgba(59,130,246,0.1)]">
+            Create Account
           </div>
-          <h1 className="text-4xl font-black tracking-tighter text-[#0F172A] mb-2">
-            BIZ<span className="text-[#1D4ED8]">CART</span>
-            <span className="text-[#FBBF24]">PRO</span>
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-white mb-2 drop-shadow-lg">
+            BIZ<span className="text-blue-500">CART</span>
+            <span className="text-amber-400">PRO</span>
           </h1>
           <p className="text-slate-400 text-sm font-medium">
-            Start your premium shopping journey today
+            Join the future of premium digital shopping
           </p>
         </div>
 
+        {/* Form Section */}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-cols-1 md:grid-cols-2 gap-5"
         >
           {/* Full Name */}
-          <div className="space-y-1.5 md:col-span-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">
+          <div className="space-y-2 md:col-span-2">
+            <label className="text-[10px] font-black text-slate-500 uppercase ml-1 tracking-widest">
               Full Name
             </label>
             <div
-              className={`flex items-center bg-white border-2 rounded-2xl px-4 py-0.5 transition-all duration-300 ${
+              className={`flex items-center bg-[#020617]/60 border rounded-xl px-4 transition-all duration-300 group ${
                 errors.fullName
-                  ? "border-red-400 shadow-[0_0_0_4px_rgba(248,113,113,0.1)]"
-                  : "border-slate-100 focus-within:border-[#1D4ED8] focus-within:shadow-[0_0_0_4px_rgba(29,78,216,0.1)]"
+                  ? "border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
+                  : "border-slate-800 focus-within:border-blue-500 focus-within:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:border-slate-700"
               }`}
             >
-              <AiOutlineUser className="text-slate-400" size={18} />
+              <AiOutlineUser
+                className="text-slate-500 group-focus-within:text-blue-500 transition-colors"
+                size={20}
+              />
               <input
                 {...register("fullName", { required: "Name is required" })}
-                className="w-full bg-transparent py-3.5 px-3 text-sm outline-none text-[#0F172A] font-medium"
-                placeholder="John Doe"
+                className="w-full bg-transparent py-4 px-3 text-sm outline-none text-white font-medium placeholder-slate-700"
+                placeholder="Ex: John Doe"
               />
             </div>
           </div>
 
           {/* Email */}
-          <div className="space-y-1.5 md:col-span-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">
+          <div className="space-y-2 md:col-span-2">
+            <label className="text-[10px] font-black text-slate-500 uppercase ml-1 tracking-widest">
               Email Address
             </label>
             <div
-              className={`flex items-center bg-white border-2 rounded-2xl px-4 py-0.5 transition-all duration-300 ${
+              className={`flex items-center bg-[#020617]/60 border rounded-xl px-4 transition-all duration-300 group ${
                 errors.email
-                  ? "border-red-400 shadow-[0_0_0_4px_rgba(248,113,113,0.1)]"
-                  : "border-slate-100 focus-within:border-[#1D4ED8] focus-within:shadow-[0_0_0_4px_rgba(29,78,216,0.1)]"
+                  ? "border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
+                  : "border-slate-800 focus-within:border-blue-500 focus-within:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:border-slate-700"
               }`}
             >
-              <AiOutlineMail className="text-slate-400" size={18} />
+              <AiOutlineMail
+                className="text-slate-500 group-focus-within:text-blue-500 transition-colors"
+                size={20}
+              />
               <input
                 {...register("email", {
                   required: "Email is required",
                   pattern: { value: /^\S+@\S+$/i, message: "Invalid email" },
                 })}
-                className="w-full bg-transparent py-3.5 px-3 text-sm outline-none text-[#0F172A] font-medium"
+                className="w-full bg-transparent py-4 px-3 text-sm outline-none text-white font-medium placeholder-slate-700"
                 placeholder="john@example.com"
               />
             </div>
           </div>
 
           {/* Password */}
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-slate-500 uppercase ml-1 tracking-widest">
               Password
             </label>
             <div
-              className={`flex items-center bg-white border-2 rounded-2xl px-4 py-0.5 transition-all duration-300 ${
+              className={`flex items-center bg-[#020617]/60 border rounded-xl px-4 transition-all duration-300 group ${
                 errors.password
-                  ? "border-red-400 shadow-[0_0_0_4px_rgba(248,113,113,0.1)]"
-                  : "border-slate-100 focus-within:border-[#1D4ED8] focus-within:shadow-[0_0_0_4px_rgba(29,78,216,0.1)]"
+                  ? "border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
+                  : "border-slate-800 focus-within:border-blue-500 focus-within:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:border-slate-700"
               }`}
             >
-              <AiOutlineLock className="text-slate-400" size={18} />
+              <AiOutlineLock
+                className="text-slate-500 group-focus-within:text-blue-500 transition-colors"
+                size={20}
+              />
               <input
                 type={showPass ? "text" : "password"}
                 {...register("password", {
                   required: "Required",
                   minLength: { value: 6, message: "Min 6 chars" },
                 })}
-                className="w-full bg-transparent py-3.5 px-3 text-sm outline-none text-[#0F172A] font-medium"
+                className="w-full bg-transparent py-4 px-3 text-sm outline-none text-white font-medium placeholder-slate-700"
                 placeholder="••••••••"
               />
               <button
                 type="button"
                 onClick={() => setShowPass(!showPass)}
-                className="text-slate-400 hover:text-[#1D4ED8] transition-colors p-1"
+                className="text-slate-600 hover:text-white transition-colors p-1"
               >
                 {showPass ? (
-                  <AiOutlineEyeInvisible size={18} />
+                  <AiOutlineEyeInvisible size={20} />
                 ) : (
-                  <AiOutlineEye size={18} />
+                  <AiOutlineEye size={20} />
                 )}
               </button>
             </div>
           </div>
 
           {/* Confirm Password */}
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-slate-500 uppercase ml-1 tracking-widest">
               Confirm
             </label>
             <div
-              className={`flex items-center bg-white border-2 rounded-2xl px-4 py-0.5 transition-all duration-300 ${
+              className={`flex items-center bg-[#020617]/60 border rounded-xl px-4 transition-all duration-300 group ${
                 errors.confirmPassword
-                  ? "border-red-400 shadow-[0_0_0_4px_rgba(248,113,113,0.1)]"
-                  : "border-slate-100 focus-within:border-[#1D4ED8] focus-within:shadow-[0_0_0_4px_rgba(29,78,216,0.1)]"
+                  ? "border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
+                  : "border-slate-800 focus-within:border-blue-500 focus-within:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:border-slate-700"
               }`}
             >
-              <AiOutlineLock className="text-slate-400" size={18} />
+              <AiOutlineLock
+                className="text-slate-500 group-focus-within:text-blue-500 transition-colors"
+                size={20}
+              />
               <input
                 type={showConfirmPass ? "text" : "password"}
                 {...register("confirmPassword", {
                   required: "Required",
                   validate: (value) => value === passwordValue || "No match",
                 })}
-                className="w-full bg-transparent py-3.5 px-3 text-sm outline-none text-[#0F172A] font-medium"
+                className="w-full bg-transparent py-4 px-3 text-sm outline-none text-white font-medium placeholder-slate-700"
                 placeholder="••••••••"
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPass(!showConfirmPass)}
-                className="text-slate-400 hover:text-[#1D4ED8] transition-colors p-1"
+                className="text-slate-600 hover:text-white transition-colors p-1"
               >
                 {showConfirmPass ? (
-                  <AiOutlineEyeInvisible size={18} />
+                  <AiOutlineEyeInvisible size={20} />
                 ) : (
-                  <AiOutlineEye size={18} />
+                  <AiOutlineEye size={20} />
                 )}
               </button>
             </div>
           </div>
 
-          {/* Profile Picture */}
-          <div className="space-y-1.5 md:col-span-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">
+          {/* Profile Picture Upload */}
+          <div className="space-y-2 md:col-span-2">
+            <label className="text-[10px] font-black text-slate-500 uppercase ml-1 tracking-widest">
               Profile Picture
             </label>
-            <label className="flex items-center justify-center w-full bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl p-4 hover:border-[#1D4ED8] hover:bg-blue-50/50 transition-all cursor-pointer group">
-              <div className="flex flex-col items-center">
-                <AiOutlineCloudUpload
-                  className="text-slate-400 group-hover:text-[#1D4ED8] transition-colors"
-                  size={24}
-                />
-                <span className="text-[10px] font-bold text-slate-400 mt-1 uppercase group-hover:text-[#1D4ED8]">
-                  Upload Your Photo
+            <label className="flex items-center justify-center w-full bg-[#020617]/30 border-2 border-dashed border-slate-800 rounded-xl p-6 hover:border-blue-500 hover:bg-blue-500/5 transition-all cursor-pointer group relative overflow-hidden">
+              <div className="flex flex-col items-center relative z-10">
+                <div className="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300 group-hover:bg-blue-500">
+                  <AiOutlineCloudUpload
+                    className="text-slate-400 group-hover:text-white transition-colors"
+                    size={24}
+                  />
+                </div>
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider group-hover:text-blue-400 transition-colors">
+                  Click to Upload
                 </span>
               </div>
               <input {...register("image")} type="file" className="hidden" />
@@ -257,38 +283,50 @@ const Register = () => {
           </div>
 
           {/* Submit Button */}
-          <div className="md:col-span-2 pt-4">
+          <div className="md:col-span-2 pt-6">
             <button
               type="submit"
-              className="w-full bg-[#0F172A] text-white py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-slate-200 hover:bg-[#1D4ED8] hover:-translate-y-1 transition-all duration-300 active:scale-[0.98]"
+              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40 hover:-translate-y-1 transition-all duration-300 active:scale-[0.98] border border-blue-500/20 relative overflow-hidden group"
             >
-              Initialize Registration
+              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 blur-lg"></div>
+              <span className="relative">Initialize Registration</span>
             </button>
           </div>
         </form>
 
+        {/* Divider */}
         <div className="flex items-center my-8 md:col-span-2">
-          <div className="flex-1 h-px bg-slate-100"></div>
-          <span className="px-4 text-[9px] font-black text-slate-300 uppercase tracking-[0.3em]">
-            Or
+          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-800 to-transparent"></div>
+          <span className="px-4 text-[9px] font-black text-slate-600 uppercase tracking-[0.3em]">
+            Or continue with
           </span>
-          <div className="flex-1 h-px bg-slate-100"></div>
+          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-800 to-transparent"></div>
         </div>
 
+        {/* Social Buttons */}
         <div className="grid grid-cols-2 gap-4 md:col-span-2">
-          <button className="flex items-center justify-center gap-3 py-3.5 border-2 border-slate-50 rounded-2xl hover:bg-slate-50 transition-all font-bold text-[10px] text-slate-700 shadow-sm">
-            <AiOutlineGoogle size={18} className="text-red-500" /> GOOGLE
+          <button className="flex items-center justify-center gap-3 py-3.5 bg-[#020617]/50 border border-slate-800 rounded-xl hover:bg-slate-800 hover:border-slate-600 transition-all font-bold text-[10px] text-slate-300 shadow-sm hover:text-white group">
+            <AiOutlineGoogle
+              size={18}
+              className="text-slate-500 group-hover:text-red-500 transition-colors"
+            />{" "}
+            GOOGLE
           </button>
-          <button className="flex items-center justify-center gap-3 py-3.5 border-2 border-slate-50 rounded-2xl hover:bg-slate-50 transition-all font-bold text-[10px] text-slate-700 shadow-sm">
-            <AiFillFacebook size={18} className="text-blue-600" /> FACEBOOK
+          <button className="flex items-center justify-center gap-3 py-3.5 bg-[#020617]/50 border border-slate-800 rounded-xl hover:bg-slate-800 hover:border-slate-600 transition-all font-bold text-[10px] text-slate-300 shadow-sm hover:text-white group">
+            <AiFillFacebook
+              size={18}
+              className="text-slate-500 group-hover:text-blue-500 transition-colors"
+            />{" "}
+            FACEBOOK
           </button>
         </div>
 
-        <p className="text-center text-xs text-slate-400 mt-10 font-bold">
+        {/* Footer */}
+        <p className="text-center text-xs text-slate-500 mt-8 font-bold">
           Already a member?{" "}
           <Link
             to={"/auth/login"}
-            className="text-[#1D4ED8] font-black hover:underline underline-offset-4 ml-1 uppercase text-[10px] tracking-wider"
+            className="text-blue-500 font-black hover:text-blue-400 hover:underline underline-offset-4 ml-1 uppercase text-[10px] tracking-wider transition-colors"
           >
             Sign In Now
           </Link>

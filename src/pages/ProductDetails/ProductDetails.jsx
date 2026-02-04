@@ -14,18 +14,152 @@ import {
   ArrowRight,
   ShieldAlert,
 } from "lucide-react";
-
+import Swal from "sweetalert2";
+import { useCreateWishListMutation } from "../../redux/features/wishList/wishListApi";
+import useAuth from "../../hooks/useAuth";
+import { useCreateAddToCartMutation } from "../../redux/features/addToCart/addToCartApi";
 const ProductDetails = () => {
   const { productId } = useParams();
+  const { users } = useAuth();
   const {
     data: response,
     isLoading,
     isError,
   } = useGetProductDetailsQuery(productId);
+  const [createAddToCart] = useCreateAddToCartMutation();
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");
-
+  const [createWishlist] = useCreateWishListMutation();
   const product = response?.data || response;
+
+  const handleWishlist = async (productData) => {
+    console.log(productData);
+    if (!users?.email) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Please Login",
+        text: "You need to be logged in to add items to wishlist!",
+        confirmButtonColor: "#3b82f6",
+        background: "#0f172a",
+        color: "#fff",
+      });
+    }
+
+    const wishlistAdd = {
+      userName: users.displayName,
+      userEmail: users.email,
+      authorName: product.authorName,
+      authorEmail: product.authorEmail,
+      productName: product.productName,
+      description: product.description,
+      price: product.price,
+      productImage: product.productImage,
+      brand: product.brand,
+      category: product.category,
+      quantity: product.quantity,
+      sku: product.sku || "N/A",
+      status: product.status,
+    };
+
+    try {
+      Swal.fire({
+        title: "Adding to Wishlist...",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+        background: "#0f172a",
+        color: "#fff",
+      });
+
+      await createWishlist(wishlistAdd).unwrap();
+
+      Swal.fire({
+        icon: "success",
+        title: "Saved!",
+        text: `${product.productName} has been added to your wishlist.`,
+        timer: 2000,
+        showConfirmButton: false,
+        background: "#0f172a",
+        color: "#fff",
+        iconColor: "#ec4899",
+      });
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error?.data?.message || "Something went wrong! Please try again.",
+        confirmButtonColor: "#ef4444",
+        background: "#0f172a",
+        color: "#fff",
+      });
+    }
+  };
+
+  const handleAddToCart = async (addToCartData) => {
+    // 1️⃣ Check if user is logged in
+    if (!users?.email) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Please Login",
+        text: "You need to be logged in to add items to cart!",
+        confirmButtonColor: "#3b82f6",
+        background: "#0f172a",
+        color: "#fff",
+      });
+    }
+
+    const cartItem = {
+      userName: users.displayName,
+      userEmail: users.email,
+      authorName: addToCartData.authorName || "Unknown",
+      authorEmail: addToCartData.authorEmail || "Unknown",
+      productName: addToCartData.productName,
+      description: addToCartData.description,
+      price: addToCartData.price,
+      productImage: addToCartData.productImage,
+      brand: addToCartData.brand,
+      category: addToCartData.category,
+      quantity: 1, // default 1
+      sku: addToCartData.sku || "N/A",
+      status: addToCartData.status || "cart",
+    };
+
+    try {
+      Swal.fire({
+        title: "Adding to Cart...",
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading(),
+        background: "#0f172a",
+        color: "#fff",
+      });
+
+      await createAddToCart(cartItem).unwrap();
+
+      // 5️⃣ Show success
+      Swal.fire({
+        icon: "success",
+        title: "Added to Cart!",
+        text: `${cartItem.productName} has been added to your cart.`,
+        timer: 2000,
+        showConfirmButton: false,
+        background: "#0f172a",
+        color: "#fff",
+        iconColor: "#10b981",
+      });
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error?.data?.message || "Something went wrong! Please try again.",
+        confirmButtonColor: "#ef4444",
+        background: "#0f172a",
+        color: "#fff",
+      });
+    }
+  };
 
   if (isLoading) return <ProductSkeleton />;
   if (isError)
@@ -117,7 +251,7 @@ const ProductDetails = () => {
             </p>
 
             {/* Pricing Card */}
-            <div className="bg-slate-800/40 border border-slate-700/50 rounded-[2rem] p-8 mb-10 backdrop-blur-md">
+            <div className="bg-slate-800/40 border border-slate-700/50 rounded-4xl p-8 mb-10 backdrop-blur-md">
               <div className="flex items-baseline gap-4 mb-2">
                 <span className="text-5xl font-black text-white">
                   ${product?.price}
@@ -161,12 +295,18 @@ const ProductDetails = () => {
                   </button>
                 </div>
 
-                <button className="flex-1 bg-white text-slate-900 rounded-full h-16 px-8 font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-indigo-500 hover:text-white transition-all transform active:scale-95 shadow-[0_0_40px_rgba(79,70,229,0.2)]">
+                <button
+                  onClick={() => handleAddToCart(product)}
+                  className="flex-1 bg-yellow-600  rounded-full h-16 px-8 font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-indigo-500 text-white transform active:scale-95 shadow-[0_0_40px_rgba(79,70,229,0.2)] transition-all duration-600"
+                >
                   <ShoppingCart size={20} /> Add to Bag
                 </button>
               </div>
 
-              <button className="w-full flex items-center justify-center gap-2 text-slate-400 hover:text-white transition-colors py-2 group">
+              <button
+                onClick={() => handleWishlist(product)}
+                className="w-full flex items-center justify-center gap-2 text-slate-400 hover:text-white transition-colors py-2 group"
+              >
                 <Heart
                   size={18}
                   className="group-hover:fill-red-500 group-hover:text-red-500 transition-all"
@@ -235,7 +375,7 @@ const ProductDetails = () => {
 const ProductSkeleton = () => (
   <div className="max-w-7xl mx-auto px-4 py-32 animate-pulse bg-[#0f172a]">
     <div className="grid grid-cols-12 gap-16">
-      <div className="col-span-7 h-[600px] bg-slate-800 rounded-[2.5rem]"></div>
+      <div className="col-span-7 h-150 bg-slate-800 rounded-[2.5rem]"></div>
       <div className="col-span-5 space-y-10">
         <div className="h-20 w-full bg-slate-800 rounded-2xl"></div>
         <div className="h-40 w-full bg-slate-800 rounded-3xl"></div>

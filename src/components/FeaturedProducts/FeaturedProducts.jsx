@@ -1,14 +1,147 @@
 import { motion } from "framer-motion";
 import { FiShoppingCart, FiHeart, FiEye, FiStar } from "react-icons/fi";
 import { Link } from "react-router";
+import useAuth from "../../hooks/useAuth";
+import { useCreateWishListMutation } from "../../redux/features/wishList/wishListApi";
+import Swal from "sweetalert2";
+import { useCreateAddToCartMutation } from "../../redux/features/addToCart/addToCartApi";
 
 const FeaturedProductsCart = ({ product }) => {
-  // Discount percentage calculation logic
+  const { users } = useAuth();
+  const [createWishlist] = useCreateWishListMutation();
+  const [createAddToCart] = useCreateAddToCartMutation();
   const discountPercent = product.discountPrice
     ? Math.round(
         ((product.discountPrice - product.price) / product.discountPrice) * 100,
       )
     : 0;
+
+  const handleWishlist = async (product) => {
+    if (!users?.email) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Please Login",
+        text: "You need to be logged in to add items to wishlist!",
+        confirmButtonColor: "#3b82f6",
+        background: "#0f172a",
+        color: "#fff",
+      });
+    }
+
+    const wishlistAdd = {
+      userName: users.displayName,
+      userEmail: users.email,
+      authorName: product.authorName,
+      authorEmail: product.authorEmail,
+      productName: product.productName,
+      description: product.description,
+      price: product.price,
+      productImage: product.productImage,
+      brand: product.brand,
+      category: product.category,
+      quantity: product.quantity,
+      sku: product.sku || "N/A",
+      status: product.status,
+    };
+
+    try {
+      Swal.fire({
+        title: "Adding to Wishlist...",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+        background: "#0f172a",
+        color: "#fff",
+      });
+
+      await createWishlist(wishlistAdd).unwrap();
+
+      Swal.fire({
+        icon: "success",
+        title: "Saved!",
+        text: `${product.productName} has been added to your wishlist.`,
+        timer: 2000,
+        showConfirmButton: false,
+        background: "#0f172a",
+        color: "#fff",
+        iconColor: "#ec4899",
+      });
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error?.data?.message || "Something went wrong! Please try again.",
+        confirmButtonColor: "#ef4444",
+        background: "#0f172a",
+        color: "#fff",
+      });
+    }
+  };
+  const handleAddToCart = async (addToCartData) => {
+    // 1️⃣ Check if user is logged in
+    if (!users?.email) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Please Login",
+        text: "You need to be logged in to add items to cart!",
+        confirmButtonColor: "#3b82f6",
+        background: "#0f172a",
+        color: "#fff",
+      });
+    }
+
+    const cartItem = {
+      userName: users.displayName,
+      userEmail: users.email,
+      authorName: addToCartData.authorName || "Unknown",
+      authorEmail: addToCartData.authorEmail || "Unknown",
+      productName: addToCartData.productName,
+      description: addToCartData.description,
+      price: addToCartData.price,
+      productImage: addToCartData.productImage,
+      brand: addToCartData.brand,
+      category: addToCartData.category,
+      quantity: 1, // default 1
+      sku: addToCartData.sku || "N/A",
+      status: addToCartData.status || "cart",
+    };
+
+    try {
+      Swal.fire({
+        title: "Adding to Cart...",
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading(),
+        background: "#0f172a",
+        color: "#fff",
+      });
+
+      await createAddToCart(cartItem).unwrap();
+
+      // 5️⃣ Show success
+      Swal.fire({
+        icon: "success",
+        title: "Added to Cart!",
+        text: `${product.productName} has been added to your cart.`,
+        timer: 2000,
+        showConfirmButton: false,
+        background: "#0f172a",
+        color: "#fff",
+        iconColor: "#10b981",
+      });
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error?.data?.message || "Something went wrong! Please try again.",
+        confirmButtonColor: "#ef4444",
+        background: "#0f172a",
+        color: "#fff",
+      });
+    }
+  };
 
   return (
     <motion.div
@@ -23,7 +156,7 @@ const FeaturedProductsCart = ({ product }) => {
         <img
           src={product.productImage || "https://via.placeholder.com/300"}
           alt={product.productName}
-          className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+          className="w-full h-full object-cover grayscale-20 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
         />
 
         {/* Dynamic Discount Badge */}
@@ -41,7 +174,10 @@ const FeaturedProductsCart = ({ product }) => {
           >
             <FiEye size={20} strokeWidth={2.5} />
           </Link>
-          <button className="bg-white p-3.5 rounded-2xl text-[#020617] hover:bg-amber-500 transition-all shadow-2xl transform translate-y-4 group-hover:translate-y-0 duration-500">
+          <button
+            onClick={() => handleWishlist(product)}
+            className="bg-white p-3.5 rounded-2xl text-[#020617] hover:bg-amber-500 transition-all shadow-2xl transform translate-y-4 group-hover:translate-y-0 duration-500"
+          >
             <FiHeart size={20} strokeWidth={2.5} />
           </button>
         </div>
@@ -77,6 +213,7 @@ const FeaturedProductsCart = ({ product }) => {
           </div>
 
           <motion.button
+            onClick={() => handleAddToCart(product)}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="bg-amber-500 text-slate-950 h-14 w-14 rounded-2xl shadow-lg shadow-amber-500/10 flex items-center justify-center hover:bg-white transition-all duration-300"

@@ -20,6 +20,8 @@ import {
   useGetRoleByUserQuery,
   useLogoutUserMutation,
 } from "../../redux/features/users/userApi";
+import { useGetAllWishlistQuery } from "../../redux/features/wishList/wishListApi";
+import { useGetAllAddToCartQuery } from "../../redux/features/addToCart/addToCartApi";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -28,7 +30,8 @@ const Navbar = () => {
   const [desktopDeptOpen, setDesktopDeptOpen] = useState(false);
   const { users, logoutUserFunc } = useAuth();
   const [logoutUser] = useLogoutUserMutation();
-
+  const { data: wishListResponse } = useGetAllWishlistQuery(users?.email);
+  const { data: addToCartResponse } = useGetAllAddToCartQuery(users?.email);
   const { data } = useGetRoleByUserQuery(
     { email: users?.email },
     { skip: !users?.email },
@@ -50,7 +53,7 @@ const Navbar = () => {
       title: "Are you sure?",
       text: "Do you really want to log out?",
       icon: "warning",
-      background: "#1e293b", // SweetAlert-o dark kora hoyeche
+      background: "#1e293b",
       color: "#f8fafc",
       showCancelButton: true,
       confirmButtonText: "Yes, logout",
@@ -141,17 +144,28 @@ const Navbar = () => {
 
           {/* Icons */}
           <div className="flex items-center gap-4">
-            <div className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-full relative transition-all cursor-pointer">
+            <Link
+              to={"/wish-list"}
+              className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-full relative transition-all cursor-pointer"
+            >
               <AiOutlineHeart size={24} />
               <span className="absolute top-1 right-1 w-4 h-4 text-[9px] bg-red-500 text-white rounded-full flex items-center justify-center font-bold">
-                2
+                {wishListResponse?.count}
               </span>
-            </div>
+            </Link>
 
-            <div className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2.5 rounded-xl hover:bg-blue-700 cursor-pointer shadow-lg shadow-blue-900/20 transition-all active:scale-95">
+            <Link
+              to={"/add-to-cart"}
+              className="relative flex items-center gap-2 bg-blue-600 text-white px-4 py-2.5 rounded-xl hover:bg-blue-700 cursor-pointer shadow-lg shadow-blue-900/20 transition-all active:scale-95"
+            >
               <AiOutlineShoppingCart size={22} />
-              <span className="hidden sm:block text-xs font-black">$3,540</span>
-            </div>
+              <span className="absolute top-1 left-7 w-4 h-4 text-[9px] bg-red-500/90 text-white rounded-full flex items-center justify-center font-bold">
+                {addToCartResponse?.count}
+              </span>
+              <span className="hidden sm:block text-xs font-black">
+                ${addToCartResponse?.totalPrice}.00
+              </span>
+            </Link>
 
             {users ? (
               <div className="flex items-center gap-3 border-l border-slate-800 pl-4">
