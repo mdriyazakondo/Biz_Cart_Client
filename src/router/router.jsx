@@ -8,6 +8,8 @@ import AddProducts from "../pages/Dashboard/AddProducts/AddProducts";
 import Profile from "../pages/Dashboard/Profile/Profile";
 import Customers from "../pages/Dashboard/Admin/Customers/Customers";
 import MyProduct from "../pages/Dashboard/MyProduct/MyProduct";
+import ProductDetails from "../pages/ProductDetails/ProductDetails";
+import AllProducts from "../pages/AllProducts/AllProducts";
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +18,8 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "add-products", element: <AddProducts /> },
+      { path: "products", element: <AllProducts /> },
+      { path: "products/:productId", element: <ProductDetails /> },
     ],
   },
   { path: "auth/login", element: <Login /> },

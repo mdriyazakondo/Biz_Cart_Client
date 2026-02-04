@@ -47,31 +47,34 @@ const BestSellers = () => {
   ];
 
   return (
-    <section className="py-24 bg-[#f8fafc]">
-      <div className="max-w-380 mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-16">
+    <section className="py-24 bg-[#020617]">
+      {" "}
+      {/* Background full dark */}
+      <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="text-center md:text-left"
+            className="text-left"
           >
-            <div className="flex items-center justify-center md:justify-start gap-2 mb-2 text-[#d97706]">
-              <FiTrendingUp strokeWidth={3} />
-              <span className="font-black text-xs uppercase tracking-[0.3em]">
-                Top Choice
+            <div className="flex items-center gap-2 mb-3 text-indigo-500">
+              <FiTrendingUp strokeWidth={3} className="animate-bounce" />
+              <span className="font-black text-[10px] uppercase tracking-[0.4em]">
+                Market Favorites
               </span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-black text-[#0f172a] tracking-tight">
-              Best <span className="text-[#d97706]">Sellers</span>
+            <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter">
+              Best <span className="text-indigo-500">Sellers</span>
             </h2>
           </motion.div>
 
-          <div className="hidden md:flex gap-2 bg-white p-1 rounded-2xl border border-slate-200">
-            <button className="px-6 py-2 bg-[#0f172a] text-white rounded-xl font-bold text-sm">
+          <div className="flex gap-2 bg-[#0f172a] p-1.5 rounded-2xl border border-slate-800">
+            <button className="px-8 py-2.5 bg-indigo-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-indigo-500/20 transition-all">
               Weekly
             </button>
-            <button className="px-6 py-2 text-slate-500 hover:text-[#0f172a] font-bold text-sm">
+            <button className="px-8 py-2.5 text-slate-500 hover:text-white font-black text-[10px] uppercase tracking-widest transition-colors">
               Monthly
             </button>
           </div>
@@ -85,36 +88,40 @@ const BestSellers = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="group bg-white rounded-xl border border-slate-100 p-4 transition-all duration-500 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.08)]"
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              className="group bg-[#0f172a] rounded-[2.5rem] border border-slate-800/50 p-5 transition-all duration-500 hover:border-indigo-500/50 hover:shadow-[0_20px_40px_-15px_rgba(79,70,229,0.15)] relative overflow-hidden"
             >
               {/* Image Container */}
-              <div className="relative h-60 w-full rounded-xl overflow-hidden bg-slate-50">
+              <div className="relative h-64 w-full rounded-[2rem] overflow-hidden bg-slate-900">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
                 />
-                <button className="absolute top-4 right-4 p-2.5 bg-white/80 backdrop-blur-md rounded-full text-[#0f172a] opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[#d97706] hover:text-white">
+
+                {/* Wishlist Button */}
+                <button className="absolute top-4 right-4 p-3 bg-black/40 backdrop-blur-md rounded-2xl text-white opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 hover:bg-indigo-600 hover:scale-110">
                   <FiHeart size={18} />
                 </button>
-                <div className="absolute bottom-4 left-4 bg-[#0f172a]/90 backdrop-blur-sm text-white text-[10px] font-bold px-3 py-1 rounded-lg">
-                  🔥 {product.sales}
+
+                {/* Sales Badge */}
+                <div className="absolute bottom-4 left-4 bg-indigo-600/90 backdrop-blur-md text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-xl shadow-xl">
+                  {product.sales}
                 </div>
               </div>
 
               {/* Product Info */}
-              <div className="mt-6 px-2">
-                <div className="flex justify-between items-start mb-2">
-                  <p className="text-[#d97706] text-[10px] font-black uppercase tracking-widest">
+              <div className="mt-8 px-2">
+                <div className="flex justify-between items-center mb-3">
+                  <p className="text-indigo-400 text-[10px] font-black uppercase tracking-widest">
                     {product.category}
                   </p>
-                  <div className="flex text-[#d97706]">
+                  <div className="flex gap-0.5 text-amber-400 bg-amber-400/5 px-2 py-1 rounded-lg">
                     {[...Array(5)].map((_, i) => (
                       <FiStar
                         key={i}
                         className={
-                          i < product.rating ? "fill-current" : "text-slate-200"
+                          i < product.rating ? "fill-current" : "text-slate-700"
                         }
                         size={10}
                       />
@@ -122,19 +129,26 @@ const BestSellers = () => {
                   </div>
                 </div>
 
-                <h3 className="text-lg font-black text-[#0f172a] group-hover:text-[#d97706] transition-colors line-clamp-1">
+                <h3 className="text-xl font-black text-white group-hover:text-indigo-400 transition-colors line-clamp-1 tracking-tight">
                   {product.name}
                 </h3>
 
-                <div className="flex items-center justify-between mt-6">
-                  <span className="text-2xl font-black text-[#0f172a]">
-                    ${product.price}
-                  </span>
+                <div className="flex items-center justify-between mt-8">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] text-slate-500 font-bold uppercase tracking-tighter">
+                      Starting at
+                    </span>
+                    <span className="text-2xl font-black text-white">
+                      ${product.price}
+                    </span>
+                  </div>
+
                   <motion.button
-                    whileTap={{ scale: 0.9 }}
-                    className="bg-[#0f172a] text-[#d97706] p-3 rounded-xl shadow-lg hover:shadow-[#d97706]/30 transition-all"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-white text-slate-950 p-4 rounded-2xl shadow-xl hover:bg-indigo-500 hover:text-white transition-all duration-300"
                   >
-                    <FiShoppingCart size={20} strokeWidth={2.5} />
+                    <FiShoppingCart size={22} strokeWidth={2.5} />
                   </motion.button>
                 </div>
               </div>

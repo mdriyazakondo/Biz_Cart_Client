@@ -29,8 +29,9 @@ const Login = () => {
     const { email, password } = data;
 
     try {
-      await loginUserFunc(email, password);
       const result = await loginUser({ email, password }).unwrap();
+
+      await loginUserFunc(email, password);
 
       Swal.fire({
         icon: "success",

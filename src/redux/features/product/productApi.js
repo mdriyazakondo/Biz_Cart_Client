@@ -21,6 +21,13 @@ export const productApi = createApi({
       }),
       providesTags: ["products"],
     }),
+    getProductDetails: builder.query({
+      query: (productId) => ({
+        url: `products/${productId}`,
+        method: "GET",
+      }),
+      providesTags: ["products"],
+    }),
     trendingProducts: builder.query({
       query: () => ({
         url: `products/trending`,
@@ -60,4 +67,5 @@ export const {
   useProductDeleteMutation,
   useTrendingProductsQuery,
   useFeaturedProductsQuery,
+  useGetProductDetailsQuery,
 } = productApi;

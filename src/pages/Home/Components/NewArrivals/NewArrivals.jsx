@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { FiPlus, FiArrowRight } from "react-icons/fi";
 
 const NewArrivals = () => {
-  // Real Professional Product Images (Unsplash)
   const newProducts = [
     {
       id: 1,
@@ -19,7 +18,7 @@ const NewArrivals = () => {
       category: "Audio",
       price: "348.00",
       image:
-        "https://www.sony.com.my/image/13eac3d58a02295bdf3ed5293469b2b6?fmt=png-alpha&wid=960",
+        "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?q=80&w=1000",
     },
     {
       id: 3,
@@ -40,78 +39,85 @@ const NewArrivals = () => {
   ];
 
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-380 mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 bg-[#020617]">
+      <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            className="flex-1"
           >
-            <span className="text-[#d97706] font-black tracking-[0.3em] uppercase text-xs mb-3 block">
-              Global Standards
+            <span className="text-amber-500 font-black tracking-[0.5em] uppercase text-[10px] mb-4 block">
+              Luxury Tech Selection
             </span>
-            <h2 className="text-4xl md:text-6xl font-black text-[#0f172a] tracking-tight">
+            <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter">
               New{" "}
-              <span className="text-slate-300 font-light italic">Arrivals</span>
+              <span className="text-slate-700 font-light italic">Arrivals</span>
             </h2>
           </motion.div>
 
           <motion.button
-            whileHover={{ x: 8 }}
-            className="mt-6 md:mt-0 flex items-center gap-2 text-[#0f172a] font-black border-b-2 border-[#0f172a] pb-1 hover:text-[#d97706] hover:border-[#d97706] transition-all"
+            whileHover={{ x: 10 }}
+            className="group flex items-center gap-4 text-white font-black text-xs uppercase tracking-[0.2em] border-b border-slate-800 pb-2 hover:text-amber-500 hover:border-amber-500 transition-all"
           >
-            VIEW COLLECTION <FiArrowRight />
+            VIEW COLLECTION
+            <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
           </motion.button>
         </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
           {newProducts.map((item, index) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.15, duration: 0.5 }}
-              className="group cursor-pointer"
+              transition={{ delay: index * 0.1, duration: 0.6 }}
+              className="group"
             >
               {/* Image Box */}
-              <div className="relative aspect-3/4 rounded-2xl overflow-hidden bg-slate-100 mb-6 shadow-sm border border-slate-50">
+              <div className="relative aspect-[3/4] rounded-[2rem] overflow-hidden bg-slate-900 mb-8 border border-slate-800/50 group-hover:border-amber-500/30 transition-all duration-500">
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="w-full h-full object-cover grayscale-20 group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
                 />
 
-                {/* Plus Action Button */}
+                {/* Floating Plus Action Button */}
                 <motion.button
-                  whileTap={{ scale: 0.85 }}
-                  className="absolute bottom-6 right-6 w-14 h-14 bg-[#0f172a] text-[#d97706] rounded-2xl flex items-center justify-center shadow-2xl opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 hover:bg-[#d97706] hover:text-white"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="absolute bottom-6 right-6 w-16 h-16 bg-white text-slate-950 rounded-2xl flex items-center justify-center shadow-2xl opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 hover:bg-amber-500"
                 >
-                  <FiPlus size={26} strokeWidth={3} />
+                  <FiPlus size={28} strokeWidth={3} />
                 </motion.button>
 
-                {/* Floating Category Label */}
-                <div className="absolute top-6 left-6 bg-white/80 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-[#0f172a] shadow-sm">
+                {/* Category Label */}
+                <div className="absolute top-6 left-6 bg-black/40 backdrop-blur-md px-5 py-2 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-white border border-white/10">
                   {item.category}
                 </div>
               </div>
 
               {/* Product Info */}
-              <div className="px-2">
-                <h3 className="text-2xl font-black text-[#0f172a] tracking-tighter group-hover:text-[#d97706] transition-colors leading-none">
+              <div className="px-1">
+                <h3 className="text-2xl font-black text-white tracking-tighter group-hover:text-amber-500 transition-colors duration-300">
                   {item.name}
                 </h3>
-                <div className="flex items-center justify-between mt-4">
-                  <p className="text-xl font-bold text-slate-400">
+
+                <div className="flex items-center justify-between mt-5">
+                  <p className="text-xl font-bold text-slate-500 group-hover:text-white transition-colors">
                     ${item.price}
                   </p>
-                  <span className="h-px flex-1 bg-slate-100 mx-4 hidden group-hover:block transition-all"></span>
-                  <span className="text-[#d97706] font-black text-xs hidden group-hover:block">
-                    NEW
-                  </span>
+
+                  {/* Subtle 'New' indicator that appears on hover */}
+                  <div className="overflow-hidden h-5">
+                    <span className="text-amber-500 font-black text-[10px] uppercase tracking-widest translate-y-10 group-hover:translate-y-0 transition-transform duration-500 block">
+                      In Stock
+                    </span>
+                  </div>
                 </div>
               </div>
             </motion.div>
