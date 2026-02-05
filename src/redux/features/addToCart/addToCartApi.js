@@ -21,6 +21,14 @@ export const addToCartApi = createApi({
       }),
       providesTags: ["addToCart"],
     }),
+    createManyAddToCart: builder.mutation({
+      query: ({ userName, userEmail, products }) => ({
+        url: "addToCarts/many-data",
+        method: "POST",
+        body: { userName, userEmail, products },
+      }),
+      invalidatesTags: ["addToCart"],
+    }),
     incrementAddToCart: builder.mutation({
       query: (id) => ({
         url: `addToCarts/${id}/increment`,
@@ -51,4 +59,5 @@ export const {
   useDeleteAddToCartMutation,
   useIncrementAddToCartMutation,
   useDecrementAddToCartMutation,
+  useCreateManyAddToCartMutation,
 } = addToCartApi;

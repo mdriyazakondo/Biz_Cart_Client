@@ -29,6 +29,7 @@ const FeaturedProductsCart = ({ product }) => {
     }
 
     const wishlistAdd = {
+      productId: product?._id,
       userName: users.displayName,
       userEmail: users.email,
       authorName: product.authorName,
@@ -80,7 +81,6 @@ const FeaturedProductsCart = ({ product }) => {
     }
   };
   const handleAddToCart = async (addToCartData) => {
-    // 1️⃣ Check if user is logged in
     if (!users?.email) {
       return Swal.fire({
         icon: "warning",
@@ -93,6 +93,7 @@ const FeaturedProductsCart = ({ product }) => {
     }
 
     const cartItem = {
+      productId: addToCartData._id,
       userName: users.displayName,
       userEmail: users.email,
       authorName: addToCartData.authorName || "Unknown",

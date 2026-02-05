@@ -46,6 +46,7 @@ const ProductDetails = () => {
     }
 
     const wishlistAdd = {
+      productId: product._id,
       userName: users.displayName,
       userEmail: users.email,
       authorName: product.authorName,
@@ -111,6 +112,7 @@ const ProductDetails = () => {
     }
 
     const cartItem = {
+      productId: addToCartData._id,
       userName: users.displayName,
       userEmail: users.email,
       authorName: addToCartData.authorName || "Unknown",

@@ -14,19 +14,28 @@ import {
 import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
-import { useCreateAddToCartMutation } from "../../redux/features/addToCart/addToCartApi";
+import {
+  useCreateAddToCartMutation,
+  useCreateManyAddToCartMutation,
+} from "../../redux/features/addToCart/addToCartApi";
 
 const WishList = () => {
   const { users } = useAuth();
   const [createAddToCart] = useCreateAddToCartMutation();
-  const { data: wishListResponse, isLoading } = useGetAllWishlistQuery(
-    users?.email,
-  );
-
+  const [createManyAddToCart] = useCreateManyAddToCartMutation();
   const [deleteWishlist] = useDeleteWishlistMutation();
 
+  const {
+    data: wishListResponse,
+    isLoading,
+    refetch: refetchWishlist,
+  } = useGetAllWishlistQuery(users?.email);
+
+  const wishlistItems = wishListResponse?.wishlist || [];
+  const totalPrice = wishListResponse?.totalPrice || 0;
+
+  // 🔹 Delete single wishlist item
   const handleDeleteWishlist = async (wishlistId) => {
-    // 1. Confirmation Alert
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "Do you want to remove this item from your wishlist?",
@@ -45,14 +54,13 @@ const WishList = () => {
         Swal.fire({
           title: "Removing...",
           allowOutsideClick: false,
-          didOpen: () => {
-            Swal.showLoading();
-          },
+          didOpen: () => Swal.showLoading(),
           background: "#0f172a",
           color: "#fff",
         });
 
         await deleteWishlist(wishlistId).unwrap();
+        refetchWishlist();
 
         Swal.fire({
           icon: "success",
@@ -77,8 +85,8 @@ const WishList = () => {
     }
   };
 
-  const handleAddToCart = async (addToCartData) => {
-    // 1️⃣ Check if user is logged in
+  // 🔹 Add single item to cart
+  const handleAddToCart = async (item) => {
     if (!users?.email) {
       return Swal.fire({
         icon: "warning",
@@ -91,19 +99,20 @@ const WishList = () => {
     }
 
     const cartItem = {
+      productId: item._id,
       userName: users.displayName,
       userEmail: users.email,
-      authorName: addToCartData.authorName || "Unknown",
-      authorEmail: addToCartData.authorEmail || "Unknown",
-      productName: addToCartData.productName,
-      description: addToCartData.description,
-      price: addToCartData.price,
-      productImage: addToCartData.productImage,
-      brand: addToCartData.brand,
-      category: addToCartData.category,
-      quantity: 1, // default 1
-      sku: addToCartData.sku || "N/A",
-      status: addToCartData.status || "cart",
+      authorName: item.authorName || "Unknown",
+      authorEmail: item.authorEmail || "Unknown",
+      productName: item.productName,
+      description: item.description,
+      price: item.price,
+      productImage: item.productImage,
+      brand: item.brand,
+      category: item.category,
+      quantity: 1,
+      sku: item.sku || "N/A",
+      status: item.status || "cart",
     };
 
     try {
@@ -116,8 +125,8 @@ const WishList = () => {
       });
 
       await createAddToCart(cartItem).unwrap();
+      refetchWishlist();
 
-      // 5️⃣ Show success
       Swal.fire({
         icon: "success",
         title: "Added to Cart!",
@@ -141,9 +150,74 @@ const WishList = () => {
     }
   };
 
-  const wishlistItems = wishListResponse?.wishlist || [];
+  // 🔹 Move all wishlist items to cart
+  const handleMoveAllToCart = async () => {
+    if (!users?.email) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Please Login",
+        text: "You need to be logged in to move items to cart!",
+        confirmButtonColor: "#3b82f6",
+        background: "#0f172a",
+        color: "#fff",
+      });
+    }
 
-  const totalPrice = wishListResponse?.totalPrice || 0;
+    if (wishlistItems.length === 0) return;
+
+    try {
+      Swal.fire({
+        title: "Moving items to Cart...",
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading(),
+        background: "#0f172a",
+        color: "#fff",
+      });
+
+      const products = wishlistItems.map((item) => ({
+        productId: item._id,
+        productName: item.productName,
+        description: item.description,
+        price: item.price,
+        productImage: item.productImage,
+        brand: item.brand,
+        category: item.category,
+        quantity: 1,
+        sku: item.sku || "N/A",
+        status: item.status || "cart",
+        authorName: item.authorName || "Unknown",
+        authorEmail: item.authorEmail || "Unknown",
+      }));
+
+      await createManyAddToCart({
+        userName: users.displayName, // ✅ fixed typo
+        userEmail: users.email,
+        products,
+      }).unwrap();
+
+      refetchWishlist();
+
+      Swal.fire({
+        icon: "success",
+        title: "Moved to Cart!",
+        text: "All wishlist items have been added to your cart.",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "#0f172a",
+        color: "#fff",
+        iconColor: "#10b981",
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error?.data?.message || "Something went wrong! Please try again.",
+        confirmButtonColor: "#ef4444",
+        background: "#0f172a",
+        color: "#fff",
+      });
+    }
+  };
 
   if (isLoading) {
     return (
@@ -161,7 +235,7 @@ const WishList = () => {
   return (
     <div className="min-h-screen bg-[#020617] text-gray-200 py-12 px-4 md:px-8 mt-5">
       <div className="max-w-360 mx-auto">
-        {/* Header Section */}
+        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4 border-b border-gray-800/50 pb-8">
           <div>
             <h1 className="text-4xl font-black bg-linear-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent flex items-center gap-3 italic">
@@ -184,7 +258,7 @@ const WishList = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Wishlist Items List (Left Column) */}
+          {/* Wishlist Table */}
           <div className="lg:col-span-3 space-y-4">
             <div className="bg-[#0f172a] rounded-3xl border border-gray-800 overflow-hidden shadow-2xl">
               {wishlistItems.length > 0 ? (
@@ -211,7 +285,6 @@ const WishList = () => {
                         >
                           <td className="p-6">
                             <div className="flex items-center gap-4">
-                              {/* Product Image */}
                               <div className="w-20 h-20 rounded-2xl overflow-hidden border border-gray-700 bg-[#1e293b] shrink-0 relative">
                                 <img
                                   src={item.productImage}
@@ -220,8 +293,6 @@ const WishList = () => {
                                 />
                                 <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                               </div>
-
-                              {/* Product Info */}
                               <div className="max-w-xs">
                                 <h3 className="font-bold text-white text-lg line-clamp-1 group-hover:text-blue-400 transition-colors">
                                   {item.productName}
@@ -291,13 +362,12 @@ const WishList = () => {
             </div>
           </div>
 
-          {/* Price Summary (Right Column) */}
+          {/* Order Summary */}
           <div className="lg:col-span-1">
             <div className="bg-[#0f172a] p-8 rounded-3xl border border-gray-800 shadow-2xl sticky top-24">
               <h3 className="text-lg font-black mb-6 uppercase tracking-widest border-b border-gray-800 pb-4 flex items-center gap-2">
                 <CreditCard className="text-blue-500" size={20} /> Order Summary
               </h3>
-
               <div className="space-y-4">
                 <div className="flex justify-between text-gray-400 font-medium">
                   <span>Total Items:</span>
@@ -330,6 +400,7 @@ const WishList = () => {
 
                   <button
                     disabled={wishlistItems.length === 0}
+                    onClick={handleMoveAllToCart}
                     className="w-full bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 disabled:from-gray-800 disabled:to-gray-900 disabled:text-gray-600 disabled:cursor-not-allowed text-white font-black py-5 rounded-2xl transition-all shadow-xl shadow-blue-900/20 uppercase tracking-[0.2em] text-xs active:scale-95 mb-4"
                   >
                     Move All To Cart
