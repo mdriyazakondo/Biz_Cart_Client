@@ -28,6 +28,13 @@ export const wishListApi = createApi({
       }),
       invalidatesTags: ["wishlist"],
     }),
+    wishListAllDelete: builder.mutation({
+      query: (userEmail) => ({
+        url: `wishlists/all/${userEmail}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["wishlist"],
+    }),
   }),
 });
 
@@ -35,4 +42,5 @@ export const {
   useCreateWishListMutation,
   useGetAllWishlistQuery,
   useDeleteWishlistMutation,
+  useWishListAllDeleteMutation,
 } = wishListApi;

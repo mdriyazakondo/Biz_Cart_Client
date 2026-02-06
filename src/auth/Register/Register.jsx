@@ -44,7 +44,7 @@ const Register = () => {
         icon: "error",
         title: "Oops...",
         text: "Passwords do not match!",
-        background: "#020617", // Matches theme
+        background: "#020617",
         color: "#fff",
       });
       return;
@@ -76,7 +76,7 @@ const Register = () => {
         text: `Welcome, ${fullName}`,
         timer: 2000,
         showConfirmButton: false,
-        background: "#020617", // Matches theme
+        background: "#020617",
         color: "#fff",
       });
 
@@ -87,7 +87,7 @@ const Register = () => {
         icon: "error",
         title: "Registration Failed",
         text: error?.data?.message || error.message,
-        background: "#020617", // Matches theme
+        background: "#020617",
         color: "#fff",
       });
     }

@@ -11,6 +11,7 @@ import {
 import useAuth from "../../hooks/useAuth";
 import {
   useDecrementAddToCartMutation,
+  useDeleteAddToCartManyMutation,
   useDeleteAddToCartMutation,
   useGetAllAddToCartQuery,
   useIncrementAddToCartMutation,
@@ -30,6 +31,7 @@ const AddToCart = () => {
   const [incrementAddToCart] = useIncrementAddToCartMutation();
   const [decrementAddToCart] = useDecrementAddToCartMutation();
   const [deleteAddToCart] = useDeleteAddToCartMutation();
+  const [deleteAddToCartMany] = useDeleteAddToCartManyMutation();
   const [orderCreate, { isLoading: isOrderCreating }] =
     useCreateOrderApiMutation();
   const { data: userData } = useGetRoleByUserQuery(
@@ -116,6 +118,7 @@ const AddToCart = () => {
         background: "#020617",
         color: "#fff",
       });
+      await deleteAddToCartMany(users.email).unwrap();
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -158,7 +161,7 @@ const AddToCart = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Cart Items Table */}
           <div className="lg:col-span-3">
-            <div className="bg-[#0f172a]/50 rounded-[2rem] border border-gray-800 overflow-hidden shadow-2xl backdrop-blur-sm">
+            <div className="bg-[#0f172a]/50 rounded-4xl border border-gray-800 overflow-hidden shadow-2xl backdrop-blur-sm">
               {cartItems.length > 0 ? (
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
@@ -182,7 +185,7 @@ const AddToCart = () => {
                       {cartItems.map((item) => (
                         <tr
                           key={item._id}
-                          className="hover:bg-white/[0.02] transition-colors group"
+                          className="hover:bg-white/2 transition-colors group"
                         >
                           <td className="p-6">
                             <div className="flex items-center gap-5">
@@ -311,7 +314,7 @@ const AddToCart = () => {
                 className={`w-full py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-xl ${
                   isOrderCreating
                     ? "bg-slate-800 text-gray-500 cursor-not-allowed"
-                    : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-blue-900/40"
+                    : "bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-blue-900/40"
                 }`}
               >
                 {isOrderCreating ? "Processing..." : "Confirm Checkout"}

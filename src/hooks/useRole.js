@@ -1,17 +1,11 @@
-import { useGetRoleByUserQuery } from "../redux/features/users/userApi";
-import useAuth from "./useAuth";
+import React from 'react';
 
 const useRole = () => {
-  const { users } = useAuth();
-
-  const { data, error, isLoading } = useGetRoleByUserQuery(
-    { email: users?.email },
-    { skip: !users?.email },
+  return (
+    <div>
+      
+    </div>
   );
-
-  const roleUser = data?.user;
-
-  return { roleUser, error, isLoading };
 };
 
 export default useRole;

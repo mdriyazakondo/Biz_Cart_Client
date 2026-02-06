@@ -30,17 +30,6 @@ const UpdateProduct = ({ product, isOpen, onClose }) => {
     }
   }, [product, reset]);
 
-  // Handle Image Preview
-  useEffect(() => {
-    if (selectedImage && selectedImage[0]) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(selectedImage[0]);
-    }
-  }, [selectedImage]);
-
   const handleUpdateSubmit = async (data) => {
     try {
       let finalImageUrl = product?.productImage;

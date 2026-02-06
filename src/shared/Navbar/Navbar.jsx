@@ -198,7 +198,6 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* DESKTOP BOTTOM MENU */}
       <div className="hidden lg:block border-b border-slate-800/50">
         <div className="max-w-360 mx-auto ">
           <ul className="flex items-center gap-10 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
@@ -215,7 +214,7 @@ const Navbar = () => {
               </div>
 
               {desktopDeptOpen && (
-                <div className="absolute top-full left-0 w-64 bg-[#1e293b] border border-slate-700 shadow-2xl rounded-b-xl z-[60] overflow-hidden animate-in fade-in slide-in-from-top-2">
+                <div className="absolute top-full left-0 w-64 bg-[#1e293b] border border-slate-700 shadow-2xl rounded-b-xl z-60 overflow-hidden animate-in fade-in slide-in-from-top-2">
                   {["Electronics", "Smartphones", "Laptops"].map((item) => (
                     <div
                       key={item}

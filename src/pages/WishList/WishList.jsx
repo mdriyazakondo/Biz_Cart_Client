@@ -10,6 +10,7 @@ import {
 import {
   useDeleteWishlistMutation,
   useGetAllWishlistQuery,
+  useWishListAllDeleteMutation,
 } from "../../redux/features/wishList/wishListApi";
 import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router";
@@ -25,6 +26,7 @@ const WishList = () => {
   const [createAddToCart] = useCreateAddToCartMutation();
   const [createManyAddToCart] = useCreateManyAddToCartMutation();
   const [deleteWishlist] = useDeleteWishlistMutation();
+  const [deleteWishlistAll] = useWishListAllDeleteMutation();
 
   const {
     data: wishListResponse,
@@ -138,6 +140,9 @@ const WishList = () => {
         color: "#fff",
         iconColor: "#10b981",
       });
+
+      await deleteWishlist(item._id).unwrap();
+      refetchWishlist();
     } catch (error) {
       console.error(error);
       Swal.fire({
@@ -191,7 +196,7 @@ const WishList = () => {
       }));
 
       await createManyAddToCart({
-        userName: users.displayName, // ✅ fixed typo
+        userName: users.displayName,
         userEmail: users.email,
         products,
       }).unwrap();
@@ -208,6 +213,8 @@ const WishList = () => {
         color: "#fff",
         iconColor: "#10b981",
       });
+      await deleteWishlistAll(users?.email).unwrap();
+      refetchWishlist();
     } catch (error) {
       Swal.fire({
         icon: "error",

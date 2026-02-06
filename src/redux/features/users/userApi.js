@@ -15,8 +15,8 @@ export const userApi = createApi({
     }),
 
     getRoleByUser: builder.query({
-      query: ({ email }) => ({
-        url: `auth/users-role/${encodeURIComponent(email)}`,
+      query: () => ({
+        url: "auth/users-role",
         method: "GET",
       }),
       providesTags: ["users"],
