@@ -7,6 +7,7 @@ import {
 import { FaTrashAlt, FaUserShield, FaUserEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 import useAuth from "../../../../hooks/useAuth";
+import LoadingSpinner from "../../../../components/LogdingSpnner/LoadingSpnner";
 
 const Customers = () => {
   const { data, isLoading } = useGetAllUsersQuery();
@@ -56,12 +57,9 @@ const Customers = () => {
     });
   };
 
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#0f172a] text-blue-500 text-xl font-bold italic">
-        Loading Dashboard...
-      </div>
-    );
+  if (isLoading) {
+    return <LoadingSpinner/>;
+  }
 
   const users = data?.users || [];
 

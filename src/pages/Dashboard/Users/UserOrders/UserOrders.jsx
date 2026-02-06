@@ -7,6 +7,7 @@ import useAuth from "../../../../hooks/useAuth";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import Swal from "sweetalert2";
 import { MdCheckCircleOutline } from "react-icons/md";
+import LoadingSpinner from "../../../../components/LogdingSpnner/LoadingSpnner";
 
 const UserOrders = () => {
   const { users } = useAuth();
@@ -59,12 +60,9 @@ const UserOrders = () => {
     }
   };
 
-  if (isLoading)
-    return (
-      <div className="text-white text-center p-10 bg-[#0f172a] min-h-screen">
-        Loading orders...
-      </div>
-    );
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
   if (error)
     return (
       <div className="text-red-500 text-center p-10 bg-[#0f172a] min-h-screen">

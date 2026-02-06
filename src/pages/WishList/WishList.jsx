@@ -18,6 +18,7 @@ import {
   useCreateAddToCartMutation,
   useCreateManyAddToCartMutation,
 } from "../../redux/features/addToCart/addToCartApi";
+import LoadingSpinner from "../../components/LogdingSpnner/LoadingSpnner";
 
 const WishList = () => {
   const { users } = useAuth();
@@ -220,16 +221,7 @@ const WishList = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-[#020617] flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="text-blue-500 animate-spin" size={48} />
-          <p className="text-gray-500 font-bold tracking-widest animate-pulse">
-            LOADING WISHLIST...
-          </p>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (

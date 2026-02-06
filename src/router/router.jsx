@@ -14,11 +14,13 @@ import WishlistPage from "../pages/WishList/WishList";
 import AddToCart from "../pages/AddToCart/AddToCart";
 import UserOrders from "../pages/Dashboard/Users/UserOrders/UserOrders";
 import DashboardOverview from "../pages/Dashboard/DashboardOverView/DashboardOverview";
+import ErrorPage from "../components/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },
       { path: "add-products", element: <AddProducts /> },
@@ -33,6 +35,7 @@ export const router = createBrowserRouter([
   {
     path: "dashboard",
     element: <DashboardLayout />,
+    errorElement: <ErrorPage />,
     children: [
       { index: true, element: <DashboardOverview /> },
       { path: "add-products", element: <AddProducts /> },

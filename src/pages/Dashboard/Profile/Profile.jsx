@@ -18,6 +18,7 @@ import {
 import { imageUpload } from "../../../utils";
 import { updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
+import LoadingSpinner from "../../../components/LogdingSpnner/LoadingSpnner";
 
 const Profile = () => {
   const { users, logoutUserFunc } = useAuth();
@@ -71,11 +72,7 @@ const Profile = () => {
   };
 
   if (userLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-white">
-        Loading...
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (

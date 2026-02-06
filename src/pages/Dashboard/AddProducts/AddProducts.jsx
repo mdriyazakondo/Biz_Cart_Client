@@ -11,17 +11,13 @@ import {
   FaInfoCircle,
 } from "react-icons/fa";
 import { imageUpload } from "../../../utils";
+import LoadingSpinner from "../../../components/LogdingSpnner/LoadingSpnner";
 
 const AddProducts = () => {
-  const [createProduct] = useCreateProductMutation();
+  const [createProduct, { isLoading }] = useCreateProductMutation();
   const { users } = useAuth();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       status: "Active",
       category: "Electronics",
@@ -35,16 +31,13 @@ const AddProducts = () => {
     try {
       let uploadedImages = [];
 
-      // 1. Multiple Image Upload Logic (Max 3)
-      if (data.imageFiles && data.imageFiles.length > 0) {
+      if (data.imageFiles?.length > 0) {
         const filesArray = Array.from(data.imageFiles).slice(0, 3);
-
-        // Sob gulo image eksathe upload hobe
-        const uploadPromises = filesArray.map((file) => imageUpload(file));
-        uploadedImages = await Promise.all(uploadPromises);
+        uploadedImages = await Promise.all(
+          filesArray.map((file) => imageUpload(file)),
+        );
       }
 
-      // 2. Data Formatting (Schema onujayi)
       const finalProductData = {
         authorName: users?.displayName || "Admin",
         authorEmail: users?.email || "admin@system.com",
@@ -52,9 +45,7 @@ const AddProducts = () => {
         description: data.description,
         price: Number(data.price),
         discountPrice: Number(data.discountPrice),
-        // Jodi schema string hoy, tobe amra prothom image pathachhi.
-        // Jodi [String] hoy, tobe pura array pathaben.
-        productImage: uploadedImages[0] || data.productImageUrl || "",
+        productImage: uploadedImages[0] || "",
         brand: data.brand,
         category: data.category,
         quantity: Number(data.quantity),
@@ -64,7 +55,6 @@ const AddProducts = () => {
         createdAt: new Date(),
       };
 
-      // 3. API Call
       await createProduct(finalProductData).unwrap();
 
       Swal.fire({
@@ -88,12 +78,13 @@ const AddProducts = () => {
     }
   };
 
+  if (isLoading) return <LoadingSpinner />;
+
   return (
     <div className="min-h-screen py-12 px-4 md:px-8 text-gray-200">
       <div className="max-w-5xl mx-auto">
-        {/* Header */}
         <div className="mb-10 border-b border-gray-800 pb-8">
-          <h1 className="text-4xl font-black bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent italic uppercase">
+          <h1 className="text-4xl font-black bg-linear-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent italic uppercase">
             Add New Listing
           </h1>
           <p className="text-gray-500 mt-2 flex items-center gap-2 uppercase tracking-widest text-xs font-bold">
@@ -103,24 +94,21 @@ const AddProducts = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column */}
+            {/* LEFT */}
             <div className="space-y-6">
               <div className="bg-[#0f172a] p-6 rounded-3xl border border-gray-800 shadow-xl">
                 <label className="text-sm font-bold text-gray-400 uppercase mb-4 block">
                   Product Images (Max 3)
                 </label>
-                <div className="relative group border-2 border-dashed border-gray-700 hover:border-blue-500 rounded-2xl p-8 transition-all bg-[#1e293b]/20 text-center">
+                <div className="relative group border-2 border-dashed border-gray-700 hover:border-blue-500 rounded-2xl p-8 text-center">
                   <input
                     type="file"
                     multiple
                     accept="image/*"
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                     {...register("imageFiles")}
+                    className="absolute inset-0 opacity-0 cursor-pointer"
                   />
-                  <FaCloudUploadAlt
-                    size={40}
-                    className="mx-auto text-gray-600 group-hover:text-blue-400 mb-2"
-                  />
+                  <FaCloudUploadAlt className="mx-auto text-4xl text-gray-600 group-hover:text-blue-400 mb-2" />
                   <p className="text-sm text-gray-400">
                     Click or Drag to upload
                   </p>
@@ -133,7 +121,7 @@ const AddProducts = () => {
                 </label>
                 <select
                   {...register("status")}
-                  className="w-full bg-[#1e293b]/50 text-white p-4 rounded-xl border border-gray-800 outline-none"
+                  className="w-full bg-[#1e293b]/50 text-white p-4 rounded-xl border border-gray-800"
                 >
                   <option value="Active">🟢 Active</option>
                   <option value="Draft">🟠 Draft</option>
@@ -143,7 +131,7 @@ const AddProducts = () => {
                   <input
                     type="checkbox"
                     {...register("featured")}
-                    className="w-5 h-5 rounded accent-blue-500"
+                    className="w-5 h-5 accent-blue-500"
                   />
                   <label className="text-sm font-bold text-gray-400">
                     Feature this product
@@ -152,121 +140,70 @@ const AddProducts = () => {
               </div>
             </div>
 
-            {/* Right Column (Details) */}
+            {/* RIGHT */}
             <div className="lg:col-span-2 space-y-6">
+              {/* BASIC */}
               <div className="bg-[#0f172a] p-8 rounded-3xl border border-gray-800 shadow-xl">
                 <h3 className="text-lg font-bold mb-6 flex items-center gap-2 border-b border-gray-800 pb-4">
                   <FaInfoCircle className="text-blue-500" /> Basic Details
                 </h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="md:col-span-2">
-                    <label className="text-xs font-bold text-gray-500 uppercase block mb-2">
-                      Product Name *
-                    </label>
-                    <input
-                      {...register("productName", {
-                        required: "Name is required",
-                      })}
-                      className="w-full bg-[#1e293b]/30 text-white p-4 rounded-xl border border-gray-800 focus:border-blue-500 outline-none transition-all"
-                      placeholder="e.g. Sony WH-1000XM5"
-                    />
-                  </div>
+                <input
+                  {...register("productName", { required: true })}
+                  placeholder="Product Name"
+                  className="w-full mb-4 bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800"
+                />
 
-                  <div>
-                    <label className="text-xs font-bold text-gray-500 uppercase block mb-2">
-                      Brand
-                    </label>
-                    <input
-                      {...register("brand")}
-                      className="w-full bg-[#1e293b]/30 text-white p-4 rounded-xl border border-gray-800 outline-none"
-                      placeholder="Sony"
-                    />
-                  </div>
+                <input
+                  {...register("brand")}
+                  placeholder="Brand"
+                  className="w-full mb-4 bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800"
+                />
 
-                  <div>
-                    <label className="text-xs font-bold text-gray-500 uppercase block mb-2">
-                      Category
-                    </label>
-                    <select
-                      {...register("category")}
-                      className="w-full bg-[#1e293b]/30 text-white p-4 rounded-xl border border-gray-800 outline-none"
-                    >
-                      <option value="Electronics">Electronics</option>
-                      <option value="Audio">Audio</option>
-                      <option value="Accessories">Accessories</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-bold text-gray-500 uppercase block mb-2">
-                      SKU Code
-                    </label>
-                    <input
-                      {...register("sku")}
-                      className="w-full bg-[#1e293b]/30 text-white p-4 rounded-xl border border-gray-800 outline-none"
-                      placeholder="SNY-001"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-bold text-gray-500 uppercase block mb-2">
-                      Quantity
-                    </label>
-                    <input
-                      type="number"
-                      {...register("quantity")}
-                      className="w-full bg-[#1e293b]/30 text-white p-4 rounded-xl border border-gray-800 outline-none"
-                    />
-                  </div>
-                </div>
+                <input
+                  type="number"
+                  {...register("quantity")}
+                  placeholder="Quantity"
+                  className="w-full bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800"
+                />
               </div>
 
-              {/* Pricing */}
+              {/* PRICING */}
               <div className="bg-[#0f172a] p-8 rounded-3xl border border-gray-800 shadow-xl">
                 <h3 className="text-lg font-bold mb-6 flex items-center gap-2 border-b border-gray-800 pb-4">
                   <FaDollarSign className="text-emerald-500" /> Pricing
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="text-xs font-bold text-gray-500 uppercase block mb-2">
-                      Base Price ($) *
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      {...register("price", { required: true })}
-                      className="w-full bg-[#1e293b]/30 text-white p-4 rounded-xl border border-gray-800 outline-none focus:border-emerald-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-bold text-gray-500 uppercase block mb-2">
-                      Discount Price ($)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      {...register("discountPrice")}
-                      className="w-full bg-[#1e293b]/30 text-white p-4 rounded-xl border border-gray-800 outline-none focus:border-emerald-500"
-                    />
-                  </div>
-                </div>
+
+                <input
+                  type="number"
+                  {...register("price", { required: true })}
+                  placeholder="Price"
+                  className="w-full mb-4 bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800"
+                />
+
+                <input
+                  type="number"
+                  {...register("discountPrice")}
+                  placeholder="Discount Price"
+                  className="w-full bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800"
+                />
               </div>
 
+              {/* DESCRIPTION */}
               <div className="bg-[#0f172a] p-8 rounded-3xl border border-gray-800 shadow-xl">
-                <h3 className="text-lg font-bold mb-6 flex items-center gap-2 border-b border-gray-800 pb-4">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
                   <FaTags className="text-purple-500" /> Description
                 </h3>
                 <textarea
                   {...register("description")}
                   rows="4"
-                  className="w-full bg-[#1e293b]/30 text-white p-4 rounded-xl border border-gray-800 outline-none resize-none"
-                ></textarea>
+                  className="w-full bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800"
+                />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black py-5 rounded-2xl transition-all shadow-xl uppercase tracking-widest active:scale-95"
+                className="w-full bg-linear-to-r from-blue-600 to-indigo-600 py-5 rounded-2xl font-black uppercase tracking-widest"
               >
                 Publish Product
               </button>

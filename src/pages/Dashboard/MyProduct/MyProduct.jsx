@@ -6,6 +6,7 @@ import {
 import { FaEdit, FaTrashAlt, FaExternalLinkAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import UpdateProduct from "./components/UpdateProduct";
+import LoadingSpinner from "../../../components/LogdingSpnner/LoadingSpnner";
 
 const MyProduct = () => {
   const { data, isLoading } = useMyAllProductQuery();
@@ -56,10 +57,9 @@ const MyProduct = () => {
     setIsModalOpen(true);
   };
 
-  if (isLoading)
-    return (
-      <div className="text-white p-10 text-center">Loading Products...</div>
-    );
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   const products = data || [];
 
