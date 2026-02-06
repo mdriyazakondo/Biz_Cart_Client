@@ -11,6 +11,7 @@ import useAuth from "../../hooks/useAuth";
 import { useLogoutUserMutation } from "../../redux/features/users/userApi";
 import Swal from "sweetalert2";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import { VscListOrdered } from "react-icons/vsc";
 
 const Sidebar = ({ setSidebarOpen, sidebarOpen }) => {
   const { logoutUserFunc } = useAuth();
@@ -78,6 +79,12 @@ const Sidebar = ({ setSidebarOpen, sidebarOpen }) => {
           to="customers"
           icon={FiUsers}
           label="Customers"
+        />
+        <SidebarItem
+          onClick={() => setSidebarOpen(false)}
+          to="user-order"
+          icon={VscListOrdered}
+          label="My Order"
         />
         <SidebarItem
           onClick={() => setSidebarOpen(false)}

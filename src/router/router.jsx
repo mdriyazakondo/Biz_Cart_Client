@@ -12,6 +12,8 @@ import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import AllProducts from "../pages/AllProducts/AllProducts";
 import WishlistPage from "../pages/WishList/WishList";
 import AddToCart from "../pages/AddToCart/AddToCart";
+import UserOrders from "../pages/Dashboard/Users/UserOrders/UserOrders";
+import DashboardOverview from "../pages/Dashboard/DashboardOverView/DashboardOverview";
 
 export const router = createBrowserRouter([
   {
@@ -29,12 +31,12 @@ export const router = createBrowserRouter([
   { path: "auth/login", element: <Login /> },
   { path: "auth/register", element: <Register /> },
   {
-    path: "dashboard", // ✅ main dashboard route
+    path: "dashboard",
     element: <DashboardLayout />,
     children: [
-      { index: true, element: <h3>Dashboard Overview</h3> },
-      { path: "overview", element: <h3>Dashboard layout</h3> },
+      { index: true, element: <DashboardOverview /> },
       { path: "add-products", element: <AddProducts /> },
+      { path: "user-order", element: <UserOrders /> },
       { path: "settings", element: <Profile /> },
       { path: "customers", element: <Customers /> },
       { path: "my-products", element: <MyProduct /> },

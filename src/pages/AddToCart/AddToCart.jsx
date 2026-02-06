@@ -18,13 +18,21 @@ import {
 } from "../../redux/features/addToCart/addToCartApi";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
+import { useCreateOrderApiMutation } from "../../redux/features/order/orderApi";
+import { useGetRoleByUserQuery } from "../../redux/features/users/userApi";
 const AddToCart = () => {
   const { users } = useAuth();
   const [incrementAddToCart] = useIncrementAddToCartMutation();
   const [decrementAddToCart] = useDecrementAddToCartMutation();
   const [deleteAddToCart] = useDeleteAddToCartMutation();
+  const [orderCreate] = useCreateOrderApiMutation();
   const { data: cartResponse, isLoading } = useGetAllAddToCartQuery(
     users?.email,
+  );
+
+  const { data: userData, isLoading: userLoading } = useGetRoleByUserQuery(
+    { email: users?.email },
+    { skip: !users?.email },
   );
 
   const handleIncrement = async (incrementId) => {
@@ -86,6 +94,53 @@ const AddToCart = () => {
     }
   };
 
+  // order create
+  const handleOrder = async () => {
+    if (!cartItems.length) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Cart is empty",
+        background: "#0f172a",
+        color: "#fff",
+      });
+    }
+
+    const orderProducts = cartItems.map((item) => ({
+      productId: item.productId,
+      quantity: Number(item.quantity),
+      price: Number(item.price),
+      // image: item?.productImage,
+    }));
+
+    const orderData = {
+      userId: userData?.user?._id,
+      products: orderProducts,
+      totalAmount: Number(totalAmount),
+      paymentMethod: "Cash On Delivery",
+      paymentStatus: "Pending",
+      status: "Pending",
+    };
+
+    try {
+      await orderCreate(orderData).unwrap();
+
+      Swal.fire({
+        icon: "success",
+        title: "Order placed successfully 🎉",
+        background: "#0f172a",
+        color: "#fff",
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Order failed ❌",
+        text: error?.data?.message || "Schema validation error",
+        background: "#0f172a",
+        color: "#fff",
+      });
+    }
+  };
+
   const cartItems = cartResponse?.AddToCart || [];
   const subtotal = cartResponse?.totalPrice || 0;
 
@@ -110,7 +165,6 @@ const AddToCart = () => {
   return (
     <div className="min-h-screen bg-[#020617] text-gray-200 py-12 px-4 md:px-8 mt-5">
       <div className="max-w-360 mx-auto">
-        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4 border-b border-gray-800 pb-8">
           <div className="flex items-center gap-4">
             <div className="p-4 bg-blue-600/10 rounded-2xl border border-blue-500/20">
@@ -134,7 +188,6 @@ const AddToCart = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Cart Table (Left Column) */}
           <div className="lg:col-span-3">
             <div className="bg-[#0f172a] rounded-4xl border border-gray-800 overflow-hidden shadow-2xl">
               {cartItems.length > 0 ? (
@@ -162,7 +215,6 @@ const AddToCart = () => {
                           key={item._id}
                           className="hover:bg-white/2 transition-colors group"
                         >
-                          {/* Product Info */}
                           <td className="p-6">
                             <div className="flex items-center gap-5">
                               <div className="w-20 h-20 rounded-2xl overflow-hidden border border-gray-800 bg-[#1e293b] shrink-0">
@@ -189,7 +241,6 @@ const AddToCart = () => {
                             </div>
                           </td>
 
-                          {/* Quantity Controls */}
                           <td className="p-6 text-center">
                             <div className="flex items-center justify-center gap-3 bg-[#020617] w-fit mx-auto p-1 rounded-xl border border-gray-800/50">
                               <button
@@ -296,7 +347,10 @@ const AddToCart = () => {
                 />
               </div>
 
-              <button className="w-full bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black py-5 rounded-2xl transition-all shadow-xl shadow-blue-900/40 uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-2 active:scale-95 group">
+              <button
+                onClick={() => handleOrder()}
+                className="w-full bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black py-5 rounded-2xl transition-all shadow-xl shadow-blue-900/40 uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-2 active:scale-95 group"
+              >
                 Checkout{" "}
                 <ArrowRight
                   size={16}

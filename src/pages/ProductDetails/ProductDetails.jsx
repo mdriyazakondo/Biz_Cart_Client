@@ -27,13 +27,10 @@ const ProductDetails = () => {
     isError,
   } = useGetProductDetailsQuery(productId);
   const [createAddToCart] = useCreateAddToCartMutation();
-  const [quantity, setQuantity] = useState(1);
-  const [activeTab, setActiveTab] = useState("description");
   const [createWishlist] = useCreateWishListMutation();
   const product = response?.data || response;
 
   const handleWishlist = async (productData) => {
-    console.log(productData);
     if (!users?.email) {
       return Swal.fire({
         icon: "warning",
@@ -46,7 +43,7 @@ const ProductDetails = () => {
     }
 
     const wishlistAdd = {
-      productId: product._id,
+      productId: productData._id,
       userName: users.displayName,
       userEmail: users.email,
       authorName: product.authorName,
@@ -276,27 +273,6 @@ const ProductDetails = () => {
             {/* Selection & Actions */}
             <div className="space-y-6 mb-12">
               <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex items-center bg-slate-900 border border-slate-700 rounded-full p-1.5 h-16">
-                  <button
-                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    className="w-12 h-full flex items-center justify-center text-xl hover:text-indigo-400 transition-colors"
-                  >
-                    {" "}
-                    -{" "}
-                  </button>
-                  <span className="w-10 text-center font-black text-lg">
-                    {" "}
-                    {quantity}{" "}
-                  </span>
-                  <button
-                    onClick={() => setQuantity((q) => q + 1)}
-                    className="w-12 h-full flex items-center justify-center text-xl hover:text-indigo-400 transition-colors"
-                  >
-                    {" "}
-                    +{" "}
-                  </button>
-                </div>
-
                 <button
                   onClick={() => handleAddToCart(product)}
                   className="flex-1 bg-yellow-600  rounded-full h-16 px-8 font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-indigo-500 text-white transform active:scale-95 shadow-[0_0_40px_rgba(79,70,229,0.2)] transition-all duration-600"
