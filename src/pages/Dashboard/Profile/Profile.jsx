@@ -22,6 +22,7 @@ import LoadingSpinner from "../../../components/LogdingSpnner/LoadingSpnner";
 
 const Profile = () => {
   const { users, logoutUserFunc } = useAuth();
+
   const { data, isLoading: userLoading } = useGetRoleByUserQuery(
     { email: users?.email },
     { skip: !users?.email },
@@ -83,7 +84,7 @@ const Profile = () => {
           <div className="relative -mt-16 mb-6 flex justify-center">
             <div className="relative group">
               <img
-                src={user?.image || "https://via.placeholder.com/150"}
+                src={user?.image}
                 alt="Profile"
                 className="w-32 h-32 rounded-3xl border-4 border-[#1e293b] object-cover shadow-2xl"
               />
