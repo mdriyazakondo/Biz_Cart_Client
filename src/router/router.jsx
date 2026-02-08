@@ -15,6 +15,16 @@ import AddToCart from "../pages/AddToCart/AddToCart";
 import UserOrders from "../pages/Dashboard/Users/UserOrders/UserOrders";
 import DashboardOverview from "../pages/Dashboard/DashboardOverView/DashboardOverview";
 import ErrorPage from "../components/ErrorPage/ErrorPage";
+import Admin from "../PraiviteRoute/Admin";
+import Users from "../PraiviteRoute/User";
+import Seller from "../PraiviteRoute/Seller";
+import PrivateRoute from "../PraiviteRoute/PrariviteRoute";
+import Laptop from "../pages/Laptop/Laptop";
+import SmartPhone from "../pages/SmartPhone/SmartPhone";
+import Electronic from "../pages/Electronic/Electronic";
+import SmartWatch from "../pages/SmartWatch/SmartWatch";
+import NewProducts from "../pages/NewProducts/NewProducts";
+import BestProducts from "../pages/BestProducts/BestProducts";
 
 export const router = createBrowserRouter([
   {
@@ -23,26 +33,77 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },
-      { path: "add-products", element: <AddProducts /> },
+      { path: "laptops", element: <Laptop /> },
+      { path: "smartphones", element: <SmartPhone /> },
+      { path: "electronics", element: <Electronic /> },
+      { path: "smartWatch", element: <SmartWatch /> },
       { path: "products", element: <AllProducts /> },
       { path: "products/:productId", element: <ProductDetails /> },
       { path: "wish-list", element: <WishlistPage /> },
-      { path: "add-to-cart", element: <AddToCart /> },
+      { path: "newProducts", element: <NewProducts /> },
+      { path: "best-products", element: <BestProducts /> },
+      {
+        path: "add-to-cart",
+        element: (
+          <Users>
+            <AddToCart />{" "}
+          </Users>
+        ),
+      },
     ],
   },
   { path: "auth/login", element: <Login /> },
   { path: "auth/register", element: <Register /> },
   {
     path: "dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <DashboardOverview /> },
-      { path: "add-products", element: <AddProducts /> },
-      { path: "user-order", element: <UserOrders /> },
-      { path: "settings", element: <Profile /> },
-      { path: "customers", element: <Customers /> },
-      { path: "my-products", element: <MyProduct /> },
+      {
+        path: "add-products",
+        element: (
+          <Seller>
+            <AddProducts />
+          </Seller>
+        ),
+      },
+      {
+        path: "user-order",
+        element: (
+          <Users>
+            <UserOrders />
+          </Users>
+        ),
+      },
+      {
+        path: "settings",
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "customers",
+        element: (
+          <Admin>
+            <Customers />
+          </Admin>
+        ),
+      },
+      {
+        path: "my-products",
+        element: (
+          <Seller>
+            <MyProduct />
+          </Seller>
+        ),
+      },
     ],
   },
 ]);

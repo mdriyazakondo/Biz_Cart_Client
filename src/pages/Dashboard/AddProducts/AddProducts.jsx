@@ -17,6 +17,8 @@ const AddProducts = () => {
   const [createProduct, { isLoading }] = useCreateProductMutation();
   const { users } = useAuth();
 
+  const categories = ["Electronics", "Smartphones", "Laptops", "SmartWatch"];
+
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       status: "Active",
@@ -94,7 +96,6 @@ const AddProducts = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* LEFT */}
             <div className="space-y-6">
               <div className="bg-[#0f172a] p-6 rounded-3xl border border-gray-800 shadow-xl">
                 <label className="text-sm font-bold text-gray-400 uppercase mb-4 block">
@@ -121,7 +122,7 @@ const AddProducts = () => {
                 </label>
                 <select
                   {...register("status")}
-                  className="w-full bg-[#1e293b]/50 text-white p-4 rounded-xl border border-gray-800"
+                  className="w-full bg-[#1e293b]/50 text-white p-4 rounded-xl border border-gray-800 focus:outline-none focus:border-blue-500"
                 >
                   <option value="Active">🟢 Active</option>
                   <option value="Draft">🟠 Draft</option>
@@ -140,32 +141,47 @@ const AddProducts = () => {
               </div>
             </div>
 
-            {/* RIGHT */}
             <div className="lg:col-span-2 space-y-6">
-              {/* BASIC */}
+              {/* BASIC DETAILS */}
               <div className="bg-[#0f172a] p-8 rounded-3xl border border-gray-800 shadow-xl">
                 <h3 className="text-lg font-bold mb-6 flex items-center gap-2 border-b border-gray-800 pb-4">
                   <FaInfoCircle className="text-blue-500" /> Basic Details
                 </h3>
 
-                <input
-                  {...register("productName", { required: true })}
-                  placeholder="Product Name"
-                  className="w-full mb-4 bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800"
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input
+                    {...register("productName", { required: true })}
+                    placeholder="Product Name"
+                    className="w-full bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800 focus:outline-none focus:border-blue-500"
+                  />
 
-                <input
-                  {...register("brand")}
-                  placeholder="Brand"
-                  className="w-full mb-4 bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800"
-                />
+                  <input
+                    {...register("brand")}
+                    placeholder="Brand"
+                    className="w-full bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800 focus:outline-none focus:border-blue-500"
+                  />
 
-                <input
-                  type="number"
-                  {...register("quantity")}
-                  placeholder="Quantity"
-                  className="w-full bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800"
-                />
+                  <select
+                    {...register("category", { required: true })}
+                    className="w-full bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800 focus:outline-none focus:border-blue-500 text-gray-300"
+                  >
+                    <option value="" disabled>
+                      Select Category
+                    </option>
+                    {categories.map((cat) => (
+                      <option key={cat} value={cat} className="bg-[#0f172a]">
+                        {cat}
+                      </option>
+                    ))}
+                  </select>
+
+                  <input
+                    type="number"
+                    {...register("quantity")}
+                    placeholder="Quantity"
+                    className="w-full bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800 focus:outline-none focus:border-blue-500"
+                  />
+                </div>
               </div>
 
               {/* PRICING */}
@@ -173,20 +189,20 @@ const AddProducts = () => {
                 <h3 className="text-lg font-bold mb-6 flex items-center gap-2 border-b border-gray-800 pb-4">
                   <FaDollarSign className="text-emerald-500" /> Pricing
                 </h3>
-
-                <input
-                  type="number"
-                  {...register("price", { required: true })}
-                  placeholder="Price"
-                  className="w-full mb-4 bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800"
-                />
-
-                <input
-                  type="number"
-                  {...register("discountPrice")}
-                  placeholder="Discount Price"
-                  className="w-full bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800"
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input
+                    type="number"
+                    {...register("price", { required: true })}
+                    placeholder="Price"
+                    className="w-full bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800 focus:outline-none focus:border-blue-500"
+                  />
+                  <input
+                    type="number"
+                    {...register("discountPrice")}
+                    placeholder="Discount Price"
+                    className="w-full bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800 focus:outline-none focus:border-blue-500"
+                  />
+                </div>
               </div>
 
               {/* DESCRIPTION */}
@@ -197,13 +213,14 @@ const AddProducts = () => {
                 <textarea
                   {...register("description")}
                   rows="4"
-                  className="w-full bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800"
+                  placeholder="Tell something about the product..."
+                  className="w-full bg-[#1e293b]/30 p-4 rounded-xl border border-gray-800 focus:outline-none focus:border-blue-500"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-linear-to-r from-blue-600 to-indigo-600 py-5 rounded-2xl font-black uppercase tracking-widest"
+                className="w-full bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 py-5 rounded-2xl font-black uppercase tracking-widest transition-all shadow-lg shadow-blue-500/20"
               >
                 Publish Product
               </button>

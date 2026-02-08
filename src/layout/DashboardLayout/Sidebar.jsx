@@ -8,14 +8,24 @@ import {
 import { Link } from "react-router";
 import SidebarItem from "./SidebarItem";
 import useAuth from "../../hooks/useAuth";
-import { useLogoutUserMutation } from "../../redux/features/users/userApi";
+import {
+  useGetRoleByUserQuery,
+  useLogoutUserMutation,
+} from "../../redux/features/users/userApi";
 import Swal from "sweetalert2";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { VscListOrdered } from "react-icons/vsc";
 
 const Sidebar = ({ setSidebarOpen, sidebarOpen }) => {
-  const { logoutUserFunc } = useAuth();
+  const { logoutUserFunc, users } = useAuth();
   const [logoutUser] = useLogoutUserMutation();
+  const { data, isLoading } = useGetRoleByUserQuery(
+    { email: users?.email },
+    { skip: !users?.email },
+  );
+
+  const role = data?.user?.role;
+
   const handleLogout = async () => {
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -68,30 +78,47 @@ const Sidebar = ({ setSidebarOpen, sidebarOpen }) => {
           icon={FiGrid}
           label="Overview"
         />
-        <SidebarItem
-          onClick={() => setSidebarOpen(false)}
-          to="/dashboard/add-products"
-          icon={IoMdAddCircleOutline}
-          label="Add Product"
-        />
-        <SidebarItem
-          onClick={() => setSidebarOpen(false)}
-          to="customers"
-          icon={FiUsers}
-          label="Customers"
-        />
-        <SidebarItem
-          onClick={() => setSidebarOpen(false)}
-          to="user-order"
-          icon={VscListOrdered}
-          label="My Order"
-        />
-        <SidebarItem
-          onClick={() => setSidebarOpen(false)}
-          to="my-products"
-          icon={FiUsers}
-          label="MY Products"
-        />
+
+        {/* User  */}
+        {role === "user" && (
+          <>
+            <SidebarItem
+              onClick={() => setSidebarOpen(false)}
+              to="user-order"
+              icon={VscListOrdered}
+              label="My Order"
+            />
+          </>
+        )}
+
+        {/*  seller */}
+        {role === "seller" && (
+          <>
+            <SidebarItem
+              onClick={() => setSidebarOpen(false)}
+              to="/dashboard/add-products"
+              icon={IoMdAddCircleOutline}
+              label="Add Product"
+            />
+            <SidebarItem
+              onClick={() => setSidebarOpen(false)}
+              to="my-products"
+              icon={FiUsers}
+              label="MY Products"
+            />
+          </>
+        )}
+        {/*  admin */}
+        {role === "admin" && (
+          <>
+            <SidebarItem
+              onClick={() => setSidebarOpen(false)}
+              to="customers"
+              icon={FiUsers}
+              label="Customers"
+            />
+          </>
+        )}
         <SidebarItem
           onClick={() => setSidebarOpen(false)}
           to="settings"

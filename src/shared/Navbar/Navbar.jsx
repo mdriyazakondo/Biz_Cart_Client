@@ -209,30 +209,39 @@ const Navbar = () => {
               <div className="flex items-center gap-2">
                 <AiOutlineMenu /> ALL DEPARTMENTS
                 <MdOutlineKeyboardArrowDown
-                  className={`transition-transform duration-300 ${desktopDeptOpen ? "rotate-180" : ""}`}
+                  className={`transition-transform duration-300 ${
+                    desktopDeptOpen ? "rotate-180" : ""
+                  }`}
                 />
               </div>
 
               {desktopDeptOpen && (
-                <div className="absolute top-full left-0 w-64 bg-[#1e293b] border border-slate-700 shadow-2xl rounded-b-xl z-60 overflow-hidden animate-in fade-in slide-in-from-top-2">
+                <div className="absolute top-full left-0 w-64 bg-[#1e293b] border border-slate-700 shadow-2xl rounded-b-xl z-50 overflow-hidden">
                   {["Electronics", "Smartphones", "Laptops"].map((item) => (
-                    <div
+                    <Link
                       key={item}
-                      className="px-6 py-4 hover:bg-slate-800 text-slate-300 hover:text-white transition-all"
+                      to={`${item.toLowerCase()}`}
+                      className="block px-6 py-4 hover:bg-slate-800 text-slate-300 hover:text-white transition-all"
                     >
                       {item}
-                    </div>
+                    </Link>
                   ))}
                 </div>
               )}
             </li>
 
-            <li className="py-4 hover:text-blue-400 cursor-pointer transition-colors">
+            <Link
+              to={"/newProducts"}
+              className="py-4 hover:text-blue-400 cursor-pointer transition-colors"
+            >
               New Arrivals
-            </li>
-            <li className="py-4 hover:text-blue-400 cursor-pointer transition-colors">
+            </Link>
+            <Link
+              to={"/best-products"}
+              className="py-4 hover:text-blue-400 cursor-pointer transition-colors"
+            >
               Best Sellers
-            </li>
+            </Link>
             <li className="ml-auto text-emerald-400 font-black flex items-center gap-2 bg-emerald-500/10 px-4 py-1.5 rounded-full border border-emerald-500/20">
               <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></div>
               FLASH SALE

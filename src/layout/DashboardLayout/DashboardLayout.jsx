@@ -13,7 +13,6 @@ const DashboardLayout = () => {
       <div className="flex-1 flex flex-col min-w-0">
         <Topbar setSidebarOpen={setSidebarOpen} />
 
-        {/* 🔥 Dynamic content */}
         <main className="flex-1 overflow-y-auto p-6 lg:p-10">
           <Outlet />
         </main>

@@ -36,7 +36,7 @@ const Footer = () => {
                 placeholder="Enter your email"
                 className="w-full lg:w-96 bg-slate-900 border border-slate-700 rounded-full py-5 px-8 focus:outline-none focus:border-indigo-500 transition-all text-white font-medium"
               />
-              <button className="absolute right-2 top-2 bottom-2 bg-white text-slate-900 px-6 rounded-full font-black text-xs uppercase tracking-widest hover:bg-indigo-500 hover:text-white transition-all flex items-center gap-2">
+              <button className="absolute right-2 top-2 bottom-2  cursor-pointer px-6 rounded-full font-black text-xs uppercase tracking-widest bg-indigo-500 text-white transition-all flex items-center gap-2">
                 Subscribe <AiOutlineSend size={16} />
               </button>
             </div>

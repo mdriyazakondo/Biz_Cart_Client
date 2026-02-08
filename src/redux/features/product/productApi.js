@@ -21,6 +21,27 @@ export const productApi = createApi({
       }),
       providesTags: ["products"],
     }),
+    newProducts: builder.query({
+      query: ({ page = 1, limit = 8 }) => ({
+        url: `products/newProducts?page=${page}&limit=${limit}`,
+        method: "GET",
+      }),
+      providesTags: ["products"],
+    }),
+    bestProducts: builder.query({
+      query: ({ page = 1, limit = 8 }) => ({
+        url: `products/bestProducts?page=${page}&limit=${limit}`,
+        method: "GET",
+      }),
+      providesTags: ["products"],
+    }),
+    categoryProducts: builder.query({
+      query: (category) => ({
+        url: `products/category?category=${category}`,
+        method: "GET",
+      }),
+      providesTags: ["products"],
+    }),
     getProductDetails: builder.query({
       query: (productId) => ({
         url: `products/${productId}`,
@@ -68,4 +89,7 @@ export const {
   useTrendingProductsQuery,
   useFeaturedProductsQuery,
   useGetProductDetailsQuery,
+  useCategoryProductsQuery,
+  useNewProductsQuery,
+  useBestProductsQuery,
 } = productApi;
