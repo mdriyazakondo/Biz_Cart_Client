@@ -25,6 +25,7 @@ import Electronic from "../pages/Electronic/Electronic";
 import SmartWatch from "../pages/SmartWatch/SmartWatch";
 import NewProducts from "../pages/NewProducts/NewProducts";
 import BestProducts from "../pages/BestProducts/BestProducts";
+import FlashSale from "../pages/FlashSale/FlashSale";
 
 export const router = createBrowserRouter([
   {
@@ -36,12 +37,20 @@ export const router = createBrowserRouter([
       { path: "laptops", element: <Laptop /> },
       { path: "smartphones", element: <SmartPhone /> },
       { path: "electronics", element: <Electronic /> },
-      { path: "smartWatch", element: <SmartWatch /> },
+      { path: "smartwatch", element: <SmartWatch /> },
       { path: "products", element: <AllProducts /> },
       { path: "products/:productId", element: <ProductDetails /> },
       { path: "wish-list", element: <WishlistPage /> },
       { path: "newProducts", element: <NewProducts /> },
       { path: "best-products", element: <BestProducts /> },
+      {
+        path: "flash-sale",
+        element: (
+          <Admin>
+            <FlashSale />
+          </Admin>
+        ),
+      },
       {
         path: "add-to-cart",
         element: (

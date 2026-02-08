@@ -5,7 +5,7 @@ import { FiSend, FiMail, FiShield } from "react-icons/fi";
 const Newsletter = () => {
   return (
     <section className="py-24 bg-[#020617] px-4 overflow-hidden">
-      <div className="max-w-360 mx-auto">
+      <div className="max-w-345 mx-auto">
         {/* Main Card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -14,8 +14,8 @@ const Newsletter = () => {
           className="relative overflow-hidden bg-[#0f172a] rounded-[3rem] p-8 md:p-20 border border-slate-800/50 shadow-2xl"
         >
           {/* Background Abstract Glows - Adjusted for Dark Mode */}
-          <div className="absolute -top-24 -right-24 w-[500px] h-[500px] bg-amber-500 opacity-[0.05] blur-[120px] rounded-full"></div>
-          <div className="absolute -bottom-24 -left-24 w-[500px] h-[500px] bg-indigo-600 opacity-[0.05] blur-[120px] rounded-full"></div>
+          <div className="absolute -top-24 -right-24 w-125 h-125 bg-amber-500 opacity-[0.05] blur-[120px] rounded-full"></div>
+          <div className="absolute -bottom-24 -left-24 w-125 h-125 bg-indigo-600 opacity-[0.05] blur-[120px] rounded-full"></div>
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left Content */}

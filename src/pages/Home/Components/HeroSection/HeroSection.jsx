@@ -32,7 +32,7 @@ const HeroSection = () => {
   ];
 
   return (
-    <div className="w-full h-[550px] md:h-[650px] lg:h-[750px] bg-[#020617] mt-16 sm:mt-20 lg:mt-[155px]">
+    <div className="w-full h-[550px] md:h-[650px] lg:h-[750px] bg-[#020617]  ">
       <Swiper
         spaceBetween={0}
         centeredSlides={true}

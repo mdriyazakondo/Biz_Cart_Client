@@ -17,7 +17,7 @@ const Footer = () => {
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-indigo-600/10 blur-[120px] rounded-full"></div>
 
       {/* Newsletter Section - Real World Requirement */}
-      <div className="max-w-393 mx-auto px-6 lg:px-16 pt-20">
+      <div className="max-w-380 mx-auto px-6 lg:px-16 pt-20">
         <div className="bg-slate-800/40 border border-slate-700/50 rounded-[2.5rem] p-8 md:p-12 flex flex-col lg:flex-row items-center justify-between gap-8 backdrop-blur-xl">
           <div className="text-center lg:text-left">
             <h2 className="text-2xl md:text-3xl font-black text-white tracking-tighter mb-2">
@@ -44,7 +44,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="max-w-393 mx-auto px-6 lg:px-16 py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 relative z-10">
+      <div className="max-w-380 mx-auto px-6 lg:px-16 py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 relative z-10">
         {/* Brand Section */}
         <div className="space-y-8 text-center md:text-left">
           <h1 className="text-3xl font-black tracking-tighter text-white">
@@ -156,7 +156,7 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="border-t border-slate-800/50 py-10 bg-slate-950/30 backdrop-blur-md">
-        <div className="max-w-393 mx-auto px-6 lg:px-16 flex flex-col md:flex-row justify-between items-center gap-8">
+        <div className="max-w-380 mx-auto px-6 lg:px-16 flex flex-col md:flex-row justify-between items-center gap-8">
           <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em]">
             © {new Date().getFullYear()}{" "}
             <span className="text-white underline decoration-indigo-500 underline-offset-4 font-black">

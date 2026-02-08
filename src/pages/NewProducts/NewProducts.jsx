@@ -3,7 +3,7 @@ import { useNewProductsQuery } from "../../redux/features/product/productApi";
 import { motion } from "framer-motion";
 import LoadingSpinner from "../../components/LogdingSpnner/LoadingSpnner";
 import FeaturedProductsCart from "../../components/FeaturedProducts/FeaturedProducts";
-
+import { FaCrown, FaArrowRight } from "react-icons/fa";
 const NewProducts = () => {
   const [page, setPage] = useState(1);
   const { data, isLoading, isError } = useNewProductsQuery({ page, limit: 4 });
@@ -80,17 +80,61 @@ const NewProducts = () => {
           </div>
         )}
 
-        {/* Pagination / Load More */}
-        {page < totalPages && products.length > 0 && (
-          <div className="flex justify-center mt-12">
+        {/* Pagination Controls */}
+        <div className="flex flex-col items-center mt-20 gap-6">
+          <div className="flex items-center gap-4">
             <button
-              onClick={() => setPage((prev) => prev + 1)}
-              className="px-6 py-2 bg-blue-600 cursor-pointer text-white rounded-lg  transition-colors"
+              disabled={page === 1}
+              onClick={() => {
+                setPage((prev) => Math.max(prev - 1, 1));
+                window.scrollTo({ top: 500, behavior: "smooth" });
+              }}
+              className={`p-4 rounded-2xl border border-slate-800 transition-all ${
+                page === 1
+                  ? "opacity-20 cursor-not-allowed"
+                  : "hover:bg-slate-800 text-white"
+              }`}
             >
-              See More Products
+              <FaArrowRight className="rotate-180" />
+            </button>
+
+            <div className="flex gap-2">
+              {[...Array(totalPages)].map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setPage(i + 1);
+                  }}
+                  className={`w-10 h-10 rounded-xl font-bold transition-all ${
+                    page === i + 1
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20"
+                      : "text-slate-500 hover:text-white bg-slate-900"
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+
+            <button
+              disabled={page === totalPages}
+              onClick={() => {
+                setPage((prev) => Math.min(prev + 1, totalPages));
+              }}
+              className={`p-4 rounded-2xl border border-slate-800 transition-all ${
+                page === totalPages
+                  ? "opacity-20 cursor-not-allowed"
+                  : "hover:bg-slate-800 text-white"
+              }`}
+            >
+              <FaArrowRight />
             </button>
           </div>
-        )}
+
+          <p className="text-slate-600 text-xs font-bold uppercase tracking-[0.2em]">
+            Showing {products.length} Products
+          </p>
+        </div>
       </div>
     </section>
   );

@@ -1,68 +1,94 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useCategoryProductsQuery } from "../../redux/features/product/productApi";
+import { FaMobileAlt, FaCamera, FaBatteryFull, FaSearch } from "react-icons/fa";
+import { BsCpu } from "react-icons/bs";
+
 import FeaturedProductsCart from "../../components/FeaturedProducts/FeaturedProducts";
+import LoadingSpinner from "../../components/LogdingSpnner/LoadingSpnner";
 
 const SmartPhone = () => {
   const { data, isLoading, error } = useCategoryProductsQuery("SmartPhones");
+  const [activeBrand, setActiveBrand] = useState("All");
 
-  console.log("API Response:", data);
+  if (isLoading) return <LoadingSpinner />;
 
-  if (isLoading)
-    return <div className="text-white text-center py-20">Loading...</div>;
   if (error)
     return (
-      <div className="text-red-500 text-center py-20">
-        Error loading products.
+      <div className="min-h-screen flex items-center justify-center bg-[#020617]">
+        <div className="text-center p-10 bg-red-500/10 border border-red-500/20 rounded-[2.5rem] backdrop-blur-md">
+          <p className="text-red-400 font-bold text-xl">Connection Error</p>
+          <p className="text-slate-500 mt-2">
+            Could not sync with the smartphone inventory.
+          </p>
+        </div>
       </div>
     );
 
+  const allProducts = data?.products || [];
+
+  const brands = ["All", ...new Set(allProducts.map((p) => p.brand))];
+
+  const filteredProducts =
+    activeBrand === "All"
+      ? allProducts
+      : allProducts.filter((p) => p.brand === activeBrand);
+
   return (
-    <section className="py-24 bg-[#020617] mt-20">
-      <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="flex items-center gap-2 mb-3">
-              <span className="w-10 h-1 bg-amber-500 rounded-full"></span>
-              <span className="text-amber-500 font-black text-[10px] uppercase tracking-[0.4em]">
-                Most Wanted
+    <section className="min-h-screen bg-[#020617] pb-32 pt-30">
+      <div className="max-w-380 mx-auto px-4 sm:px-6 lg:px-8 relative z-30">
+        {/* --- HEADER SECTION --- */}
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+          <div className="w-full md:w-auto">
+            <h1 className="text-3xl md:text-4xl font-black text-white flex items-center gap-3 uppercase">
+              Available <span className="text-blue-500">Models</span>
+              <span className="text-xs bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full align-middle">
+                {allProducts.length} Items
               </span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter">
-              Trending <span className="text-amber-500">Products</span>
-            </h2>
-            <p className="text-slate-500 font-medium mt-4 max-w-md">
-              Selected premium items that are currently dominating the
-              professional landscape.
+            </h1>
+            <p className="text-slate-500 mt-2">
+              Browse our collection of high-end portable computers.
             </p>
+          </div>
+          <div className="h-px flex-1 bg-slate-800/50 mx-8 hidden lg:block mb-4"></div>
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeBrand}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8"
+          >
+            {filteredProducts.map((product, index) => (
+              <motion.div
+                key={product._id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+              >
+                <FeaturedProductsCart product={product} />
+              </motion.div>
+            ))}
           </motion.div>
+        </AnimatePresence>
 
-          <div className="h-px flex-1 bg-slate-800/50 mx-8 hidden lg:block"></div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
-          {data?.products?.map((product, index) => (
-            <motion.div
-              key={product._id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-            >
-              <FeaturedProductsCart product={product} />
-            </motion.div>
-          ))}
-        </div>
-
-        {data?.products?.length === 0 && (
-          <p className="text-center text-gray-500 py-10">
-            No products found in this category.
-          </p>
+        {/* --- EMPTY STATE --- */}
+        {filteredProducts.length === 0 && (
+          <div className="text-center py-40 bg-[#0f172a]/20 rounded-[4rem] border border-dashed border-slate-800">
+            <div className="relative inline-block mb-6">
+              <FaMobileAlt className="text-slate-800 text-7xl" />
+              <div className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full animate-ping"></div>
+            </div>
+            <h3 className="text-white text-xl font-bold uppercase tracking-widest">
+              Out of Stock
+            </h3>
+            <p className="text-slate-500 mt-2">
+              No smartphones match the selected criteria.
+            </p>
+          </div>
         )}
       </div>
     </section>

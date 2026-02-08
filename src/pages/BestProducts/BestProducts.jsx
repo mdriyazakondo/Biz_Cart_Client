@@ -7,16 +7,14 @@ import FeaturedProductsCart from "../../components/FeaturedProducts/FeaturedProd
 
 const BestProducts = () => {
   const [page, setPage] = useState(1);
-  const limit = 4; // প্রতি পেজে কয়টা দেখাবে
+  const limit = 4; 
   const { data, isLoading } = useBestProductsQuery({ page, limit });
-
   if (isLoading && page === 1) return <LoadingSpinner />;
-
   const products = data?.products || [];
   const totalPages = data?.totalPages || 1;
 
   return (
-    <section className="py-24 bg-[#020617] relative overflow-hidden mt-20">
+    <section className="py-24 bg-[#020617] relative overflow-hidden mt-5">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-125 h-125 bg-blue-600/5 blur-[120px] rounded-full -mr-64 -mt-64"></div>
 
@@ -39,7 +37,7 @@ const BestProducts = () => {
             </div>
             <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-none">
               BEST{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-indigo-500">
                 SELLERS
               </span>
             </h2>

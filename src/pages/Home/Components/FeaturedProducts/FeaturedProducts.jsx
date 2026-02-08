@@ -31,14 +31,6 @@ const FeaturedProducts = () => {
               professional efficiency.
             </p>
           </motion.div>
-
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-3.5 border border-slate-800 bg-[#0f172a] text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:border-indigo-500 hover:shadow-[0_0_20px_rgba(79,70,229,0.2)] transition-all"
-          >
-            Explore All Trends
-          </motion.button>
         </div>
 
         {/* Products Grid */}
