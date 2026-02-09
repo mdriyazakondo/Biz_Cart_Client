@@ -100,10 +100,10 @@ const HeroSection = () => {
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8 }}
-                    className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px]"
+                    className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-100 md:h-100 lg:w-125 lg:h-125"
                   >
                     {/* Rotating Ring */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent rounded-full animate-spin-[15s_linear_infinite] border border-blue-500/10"></div>
+                    <div className="absolute inset-0 bg-linear-to-tr from-blue-600/20 to-transparent rounded-full animate-spin-[15s_linear_infinite] border border-blue-500/10"></div>
 
                     {/* Main Image Container */}
                     <div className="absolute inset-3 md:inset-6 bg-[#0f172a] rounded-full shadow-2xl overflow-hidden border-4 md:border-8 border-[#1e293b]/50">

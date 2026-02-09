@@ -9,7 +9,7 @@ import Profile from "../pages/Dashboard/Profile/Profile";
 import Customers from "../pages/Dashboard/Admin/Customers/Customers";
 import MyProduct from "../pages/Dashboard/MyProduct/MyProduct";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
-import AllProducts from "../pages/AllProducts/AllProducts";
+// import AllProducts from "../pages/AllProducts/AllProducts";
 import WishlistPage from "../pages/WishList/WishList";
 import AddToCart from "../pages/AddToCart/AddToCart";
 import UserOrders from "../pages/Dashboard/Users/UserOrders/UserOrders";
@@ -27,6 +27,7 @@ import NewProducts from "../pages/NewProducts/NewProducts";
 import BestProducts from "../pages/BestProducts/BestProducts";
 import FlashSale from "../pages/FlashSale/FlashSale";
 import MyProductsOrder from "../pages/Dashboard/Sellers/MyProductsOrder/MyProductsOrder";
+import AllProducts from "../pages/Dashboard/Admin/AllProducts/AllProducts";
 
 export const router = createBrowserRouter([
   {
@@ -39,7 +40,6 @@ export const router = createBrowserRouter([
       { path: "smartphones", element: <SmartPhone /> },
       { path: "electronics", element: <Electronic /> },
       { path: "smartwatch", element: <SmartWatch /> },
-      { path: "products", element: <AllProducts /> },
       { path: "products/:productId", element: <ProductDetails /> },
       { path: "wish-list", element: <WishlistPage /> },
       { path: "newProducts", element: <NewProducts /> },
@@ -103,6 +103,14 @@ export const router = createBrowserRouter([
         element: (
           <Admin>
             <Customers />
+          </Admin>
+        ),
+      },
+      {
+        path: "all-products",
+        element: (
+          <Admin>
+            <AllProducts />
           </Admin>
         ),
       },

@@ -64,8 +64,8 @@ const Customers = () => {
   const users = data?.users || [];
 
   return (
-    <div className="min-h-screen bg-[#0f172a] p-4 md:p-10 text-gray-200">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen  p-4 md:p-10 text-gray-200">
+      <div className="max-w-360 mx-auto">
         {/* Header Section */}
         <div className="flex justify-between items-center mb-10">
           <div>

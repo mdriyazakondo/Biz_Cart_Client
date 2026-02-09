@@ -1,61 +1,15 @@
 import React, { useState } from "react";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import Swal from "sweetalert2";
 import {
   useMyAllProductQuery,
   useProductDeleteMutation,
-} from "../../../redux/features/product/productApi";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import Swal from "sweetalert2";
-import UpdateProduct from "./components/UpdateProduct";
-import LoadingSpinner from "../../../components/LogdingSpnner/LoadingSpnner";
+} from "../../../../redux/features/product/productApi";
+import LoadingSpinner from "../../../../components/LogdingSpnner/LoadingSpnner";
+import UpdateProduct from "../../MyProduct/components/UpdateProduct";
 
-const MyProduct = () => {
+const AllProducts = () => {
   const { data, isLoading } = useMyAllProductQuery();
-  const [deleteProduct] = useProductDeleteMutation();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-
-  const handleDeleteProduct = async (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "This product will be removed from your shop!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#ef4444",
-      cancelButtonColor: "#64748b",
-      confirmButtonText: "Yes, delete it!",
-      background: "#0f172a",
-      color: "#fff",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await deleteProduct(id).unwrap();
-
-          Swal.fire({
-            title: "Deleted!",
-            text: "Product has been removed.",
-            icon: "success",
-            background: "#0f172a",
-            color: "#fff",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        } catch (error) {
-          Swal.fire({
-            title: "Error!",
-            text: "Something went wrong while deleting.",
-            icon: "error",
-            background: "#0f172a",
-            color: "#fff",
-          });
-        }
-      }
-    });
-  };
-
-  const handleEditClick = (product) => {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
-  };
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -92,7 +46,7 @@ const MyProduct = () => {
                   <th className="px-6 text-nowrap py-5">Pricing</th>
                   <th className="px-6 text-nowrap py-5">Stock</th>
                   <th className="px-6 text-nowrap py-5 text-center">Status</th>
-                  <th className="px-6 text-nowrap py-5 text-center">Actions</th>
+                  {/* <th className="px-6 text-nowrap py-5 text-center">Actions</th> */}
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-800">
@@ -178,24 +132,6 @@ const MyProduct = () => {
                         {product.status}
                       </span>
                     </td>
-
-                    {/* Actions */}
-                    <td className="px-6 text-nowrap py-4">
-                      <div className="flex justify-center items-center gap-3">
-                        <button
-                          onClick={() => handleEditClick(product)}
-                          className="text-blue-400 p-2 hover:bg-blue-500/10 rounded-lg"
-                        >
-                          <FaEdit />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteProduct(product?._id)}
-                          className="p-2 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors border border-transparent hover:border-red-500/30"
-                        >
-                          <FaTrashAlt size={14} />
-                        </button>
-                      </div>
-                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -203,16 +139,8 @@ const MyProduct = () => {
           </div>
         </div>
       </div>
-
-      {isModalOpen && (
-        <UpdateProduct
-          isOpen={isModalOpen}
-          product={selectedProduct}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
     </div>
   );
 };
 
-export default MyProduct;
+export default AllProducts;

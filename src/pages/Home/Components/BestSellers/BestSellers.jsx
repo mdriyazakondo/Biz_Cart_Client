@@ -92,7 +92,7 @@ const BestSellers = () => {
               className="group bg-[#0f172a] rounded-[2.5rem] border border-slate-800/50 p-5 transition-all duration-500 hover:border-indigo-500/50 hover:shadow-[0_20px_40px_-15px_rgba(79,70,229,0.15)] relative overflow-hidden"
             >
               {/* Image Container */}
-              <div className="relative h-64 w-full rounded-[2rem] overflow-hidden bg-slate-900">
+              <div className="relative h-64 w-full rounded-4xl overflow-hidden bg-slate-900">
                 <img
                   src={product.image}
                   alt={product.name}

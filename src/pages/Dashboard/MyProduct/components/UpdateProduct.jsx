@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaTimes, FaSave, FaCloudUploadAlt, FaSync } from "react-icons/fa";
-import { imageUpload } from "../../../../utils";
-import { useProductUpdateMutation } from "../../../../redux/features/product/productApi";
 import Swal from "sweetalert2";
+import { useProductUpdateMutation } from "../../../../redux/features/product/productApi";
+import { imageUpload } from "../../../../utils";
 
 const UpdateProduct = ({ product, isOpen, onClose }) => {
   const [updateProduct] = useProductUpdateMutation();
@@ -11,8 +11,6 @@ const UpdateProduct = ({ product, isOpen, onClose }) => {
 
   const { register, handleSubmit, reset, watch, setValue } = useForm();
 
-  // Watch for image file changes to show preview
-  const selectedImage = watch("imageFile");
 
   useEffect(() => {
     if (product) {

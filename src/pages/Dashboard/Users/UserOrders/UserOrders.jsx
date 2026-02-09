@@ -72,7 +72,7 @@ const UserOrders = () => {
 
   return (
     <div className="bg-[#0f172a] min-h-screen p-4 md:p-8 text-white">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-360 mx-auto">
         <h2 className="text-2xl font-bold mb-6 border-l-4 border-blue-500 pl-4">
           My Order History
         </h2>

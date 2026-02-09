@@ -15,6 +15,7 @@ import {
 import Swal from "sweetalert2";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { VscListOrdered } from "react-icons/vsc";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 
 const Sidebar = ({ setSidebarOpen, sidebarOpen }) => {
   const { logoutUserFunc, users } = useAuth();
@@ -117,6 +118,12 @@ const Sidebar = ({ setSidebarOpen, sidebarOpen }) => {
         {/*  admin */}
         {role === "admin" && (
           <>
+            <SidebarItem
+              onClick={() => setSidebarOpen(false)}
+              to="all-products"
+              icon={MdOutlineProductionQuantityLimits}
+              label="All Products"
+            />
             <SidebarItem
               onClick={() => setSidebarOpen(false)}
               to="customers"

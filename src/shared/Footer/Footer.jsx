@@ -14,7 +14,7 @@ const Footer = () => {
   return (
     <footer className="bg-[#0f172a] text-slate-400 font-sans border-t border-slate-800/50 relative overflow-hidden">
       {/* Decorative Glow Background */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-indigo-600/10 blur-[120px] rounded-full"></div>
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-125 h-50 bg-indigo-600/10 blur-[120px] rounded-full"></div>
 
       {/* Newsletter Section - Real World Requirement */}
       <div className="max-w-380 mx-auto px-6 lg:px-16 pt-20">
