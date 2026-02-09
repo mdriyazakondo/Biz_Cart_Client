@@ -27,7 +27,7 @@ const Electronic = () => {
 
   return (
     <section className="min-h-screen bg-[#020617] pb-22">
-      <div className="max-w-400 mx-auto px-4 sm:px-6 lg:px-8 relative z-30">
+      <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-8 relative z-30">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-24 -mt-12">
           {[
             { icon: <FaMicrochip />, title: "Precision", sub: "Silicon Built" },
@@ -70,7 +70,6 @@ const Electronic = () => {
           <div className="h-px flex-1 bg-slate-800/50 mx-8 hidden lg:block mb-4"></div>
         </div>
 
- 
         {products.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
             {products.map((product, index) => (

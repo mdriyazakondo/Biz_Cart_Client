@@ -98,15 +98,17 @@ const AddToCart = () => {
 
     const orderData = {
       userId: userData?.user?._id,
+      userEmail: users?.email,
+      userName: users?.displayName,
       products: cartItems.map((item) => ({
         productId: item.productId,
         quantity: item.quantity,
         price: item.price,
+        authorEmail: item.authorEmail,
+        authorName: item.authorName,
       })),
       totalAmount: Number(totalAmount.toFixed(2)),
       paymentMethod: "Cash On Delivery",
-      paymentStatus: "Pending",
-      status: "Pending",
     };
 
     try {

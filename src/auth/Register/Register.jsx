@@ -94,11 +94,9 @@ const Register = () => {
   };
 
   return (
-    // Main Container with the requested #020617 background
     <div className="min-h-screen bg-[#020617] flex items-center justify-center py-12 px-4 font-sans relative overflow-hidden text-slate-200">
-      {/* Background Glow Effects - Adjusted for better blend with #020617 */}
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] z-0 pointer-events-none animate-pulse"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[120px] z-0 pointer-events-none"></div>
+      <div className="absolute top-[-10%] left-[-10%] w-125 h-125 bg-blue-600/20 rounded-full blur-[120px] z-0 pointer-events-none animate-pulse"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-125 h-125 bg-indigo-600/10 rounded-full blur-[120px] z-0 pointer-events-none"></div>
 
       {/* Back Button */}
       <button
@@ -112,7 +110,7 @@ const Register = () => {
       </button>
 
       {/* Main Glass Card */}
-      <div className="max-w-2xl w-full bg-[#0f172a]/40 backdrop-blur-2xl rounded-[2rem] border border-white/5 shadow-2xl p-8 md:p-12 relative z-10">
+      <div className="max-w-2xl w-full bg-[#0f172a]/40 backdrop-blur-2xl rounded-4xl border border-white/5 shadow-2xl p-8 md:p-12 relative z-10">
         {/* Header Section */}
         <div className="text-center mb-10">
           <div className="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-black uppercase tracking-[0.2em] mb-4 shadow-[0_0_15px_rgba(59,130,246,0.1)]">
@@ -286,7 +284,7 @@ const Register = () => {
           <div className="md:col-span-2 pt-6">
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40 hover:-translate-y-1 transition-all duration-300 active:scale-[0.98] border border-blue-500/20 relative overflow-hidden group"
+              className="w-full bg-linear-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40 hover:-translate-y-1 transition-all duration-300 active:scale-[0.98] border border-blue-500/20 relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 blur-lg"></div>
               <span className="relative">Initialize Registration</span>
@@ -296,29 +294,11 @@ const Register = () => {
 
         {/* Divider */}
         <div className="flex items-center my-8 md:col-span-2">
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-800 to-transparent"></div>
+          <div className="flex-1 h-px bg-linear-to-r from-transparent via-slate-800 to-transparent"></div>
           <span className="px-4 text-[9px] font-black text-slate-600 uppercase tracking-[0.3em]">
             Or continue with
           </span>
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-800 to-transparent"></div>
-        </div>
-
-        {/* Social Buttons */}
-        <div className="grid grid-cols-2 gap-4 md:col-span-2">
-          <button className="flex items-center justify-center gap-3 py-3.5 bg-[#020617]/50 border border-slate-800 rounded-xl hover:bg-slate-800 hover:border-slate-600 transition-all font-bold text-[10px] text-slate-300 shadow-sm hover:text-white group">
-            <AiOutlineGoogle
-              size={18}
-              className="text-slate-500 group-hover:text-red-500 transition-colors"
-            />{" "}
-            GOOGLE
-          </button>
-          <button className="flex items-center justify-center gap-3 py-3.5 bg-[#020617]/50 border border-slate-800 rounded-xl hover:bg-slate-800 hover:border-slate-600 transition-all font-bold text-[10px] text-slate-300 shadow-sm hover:text-white group">
-            <AiFillFacebook
-              size={18}
-              className="text-slate-500 group-hover:text-blue-500 transition-colors"
-            />{" "}
-            FACEBOOK
-          </button>
+          <div className="flex-1 h-px bg-linear-to-r from-transparent via-slate-800 to-transparent"></div>
         </div>
 
         {/* Footer */}

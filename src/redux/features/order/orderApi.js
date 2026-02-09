@@ -21,6 +21,21 @@ export const orderApi = createApi({
       }),
       providesTags: ["orders"],
     }),
+    myProductsOrder: builder.query({
+      query: ({ sellerEmail }) => ({
+        url: `orders/my-products-order/${sellerEmail}`,
+        method: "GET",
+      }),
+      providesTags: ["orders"],
+    }),
+    updatePayOrder: builder.mutation({
+      query: ({ id, paymentStatus, status }) => ({
+        url: `/orders/${id}`,
+        method: "PUT",
+        body: { paymentStatus, status },
+      }),
+      invalidatesTags: ["orders"],
+    }),
     orderDelete: builder.mutation({
       query: (orderId) => ({
         url: `orders/${orderId}`,
@@ -35,4 +50,6 @@ export const {
   useCreateOrderApiMutation,
   useUserUserGetQuery,
   useOrderDeleteMutation,
+  useMyProductsOrderQuery,
+  useUpdatePayOrderMutation
 } = orderApi;

@@ -13,18 +13,44 @@ import { Link, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useLoginUserMutation } from "../../redux/features/users/userApi";
+import { RiAdminFill } from "react-icons/ri";
+import { FaUserCheck } from "react-icons/fa";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { loginUserFunc } = useAuth();
   const [loginUser] = useLoginUserMutation();
+
+  // useForm
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
+  const adminCredentials = {
+    email: "mdriyazakondo260@gmail.com",
+    password: "Riyaz111!",
+  };
+  const sellerCredentials = {
+    email: "mr.seller@gmail.com",
+    password: "Riyaz111!",
+  };
+
+  // 🔹 Fill credentials on button click
+  const fillAdminCredentials = () => {
+    setValue("email", adminCredentials.email);
+    setValue("password", adminCredentials.password);
+  };
+
+  const fillSellerCredentials = () => {
+    setValue("email", sellerCredentials.email);
+    setValue("password", sellerCredentials.password);
+  };
+
+  // 🔹 Form submit
   const onSubmit = async (data) => {
     const { email, password } = data;
 
@@ -57,8 +83,8 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-[#020617] flex items-center justify-center py-20 px-4 font-sans relative overflow-hidden text-slate-200">
       {/* Background Neon Glows */}
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] z-0 pointer-events-none animate-pulse"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[120px] z-0 pointer-events-none"></div>
+      <div className="absolute top-[-10%] left-[-10%] w-125 h-125 bg-blue-600/20 rounded-full blur-[120px] z-0 pointer-events-none animate-pulse"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-125 h-125 bg-amber-500/10 rounded-full blur-[120px] z-0 pointer-events-none"></div>
 
       {/* Back Button */}
       <button
@@ -71,9 +97,9 @@ const Login = () => {
         </span>
       </button>
 
-      {/* Main Glassmorphic Card */}
+      {/* Main Card */}
       <div className="max-w-xl w-full bg-[#0f172a]/40 backdrop-blur-2xl rounded-[2.5rem] border border-white/5 shadow-2xl p-8 md:p-12 relative z-10">
-        {/* Header Section */}
+        {/* Header */}
         <div className="text-center mb-10">
           <div className="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-black uppercase tracking-[0.2em] mb-4 shadow-[0_0_15px_rgba(59,130,246,0.1)]">
             Secure Access
@@ -88,23 +114,20 @@ const Login = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Email Field */}
+          {/* Email */}
           <div className="space-y-2">
             <label className="text-[10px] font-black text-slate-500 uppercase ml-2 tracking-widest">
               Email Address
             </label>
             <div
-              className={`flex items-center bg-[#020617]/60 border rounded-2xl px-4 transition-all duration-300 group ${
-                errors.email
-                  ? "border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
-                  : "border-slate-800 focus-within:border-blue-500 focus-within:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:border-slate-700"
-              }`}
+              className={`flex items-center bg-[#020617]/60 border rounded-2xl px-4 transition-all duration-300 group ${errors.email ? "border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.1)]" : "border-slate-800 focus-within:border-blue-500 focus-within:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:border-slate-700"}`}
             >
               <AiOutlineMail
                 className="text-slate-500 group-focus-within:text-blue-500 transition-colors"
                 size={20}
               />
               <input
+                defaultValue={"mr.user@gmail.com"}
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -123,7 +146,7 @@ const Login = () => {
             )}
           </div>
 
-          {/* Password Field */}
+          {/* Password */}
           <div className="space-y-2">
             <div className="flex justify-between items-center px-2">
               <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
@@ -137,17 +160,14 @@ const Login = () => {
               </button>
             </div>
             <div
-              className={`flex items-center bg-[#020617]/60 border rounded-2xl px-4 transition-all duration-300 group ${
-                errors.password
-                  ? "border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
-                  : "border-slate-800 focus-within:border-blue-500 focus-within:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:border-slate-700"
-              }`}
+              className={`flex items-center bg-[#020617]/60 border rounded-2xl px-4 transition-all duration-300 group ${errors.password ? "border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.1)]" : "border-slate-800 focus-within:border-blue-500 focus-within:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:border-slate-700"}`}
             >
               <AiOutlineLock
                 className="text-slate-500 group-focus-within:text-blue-500 transition-colors"
                 size={20}
               />
               <input
+                defaultValue={"Riyaz111!"}
                 type={showPassword ? "text" : "password"}
                 {...register("password", {
                   required: "Password is required",
@@ -175,7 +195,7 @@ const Login = () => {
             )}
           </div>
 
-          {/* Remember Me checkbox */}
+          {/* Remember Me */}
           <div className="flex items-center justify-between px-1">
             <label className="flex items-center gap-2 cursor-pointer group">
               <input
@@ -188,10 +208,10 @@ const Login = () => {
             </label>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-900/20 hover:shadow-blue-600/40 hover:-translate-y-1 transition-all duration-300 active:scale-[0.98] border border-blue-500/20"
+            className="w-full bg-linear-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-900/20 hover:shadow-blue-600/40 hover:-translate-y-1 transition-all duration-300 active:scale-[0.98] border border-blue-500/20"
           >
             Authorize Login
           </button>
@@ -199,32 +219,41 @@ const Login = () => {
 
         {/* Divider */}
         <div className="flex items-center my-9">
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-800 to-transparent"></div>
+          <div className="flex-1 h-px bg-linear-to-r from-transparent via-slate-800 to-transparent"></div>
           <span className="px-4 text-[9px] font-black text-slate-600 uppercase tracking-[0.3em]">
             Fast Connect
           </span>
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-800 to-transparent"></div>
+          <div className="flex-1 h-px bg-linear-to-r from-transparent via-slate-800 to-transparent"></div>
         </div>
 
-        {/* Social Buttons */}
-        <div className="grid grid-cols-2 gap-4">
-          <button className="flex items-center justify-center gap-3 py-3.5 bg-[#020617]/50 border border-slate-800 rounded-xl hover:bg-slate-800 hover:border-slate-600 transition-all font-bold text-[10px] text-slate-300 group">
-            <AiOutlineGoogle
+        {/* Admin / Seller buttons */}
+        <div className="grid grid-cols-2 gap-4 md:col-span-2">
+          <button
+            type="button"
+            onClick={fillAdminCredentials}
+            className="flex items-center cursor-pointer justify-center gap-3 py-3.5 bg-[#020617]/50 border border-slate-800 rounded-xl hover:bg-slate-800 hover:border-slate-600 transition-all font-bold text-[10px] text-slate-300 shadow-sm hover:text-white group"
+          >
+            <RiAdminFill
               size={18}
               className="text-slate-500 group-hover:text-red-500 transition-colors"
-            />{" "}
-            GOOGLE
+            />
+            Admin
           </button>
-          <button className="flex items-center justify-center gap-3 py-3.5 bg-[#020617]/50 border border-slate-800 rounded-xl hover:bg-slate-800 hover:border-slate-600 transition-all font-bold text-[10px] text-slate-300 group">
-            <AiFillFacebook
+
+          <button
+            type="button"
+            onClick={fillSellerCredentials}
+            className="flex items-center cursor-pointer justify-center gap-3 py-3.5 bg-[#020617]/50 border border-slate-800 rounded-xl hover:bg-slate-800 hover:border-slate-600 transition-all font-bold text-[10px] text-slate-300 shadow-sm hover:text-white group"
+          >
+            <FaUserCheck
               size={18}
               className="text-slate-500 group-hover:text-blue-500 transition-colors"
-            />{" "}
-            FACEBOOK
+            />
+            Seller
           </button>
         </div>
 
-        {/* Footer Link */}
+        {/* Footer */}
         <p className="text-center text-xs text-slate-500 mt-10 font-bold">
           Don't have an account?{" "}
           <Link

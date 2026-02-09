@@ -6,7 +6,6 @@ import FeaturedProductsCart from "../../components/FeaturedProducts/FeaturedProd
 import LoadingSpinner from "../../components/LogdingSpnner/LoadingSpnner";
 
 const SmartWatch = () => {
-  // আপনার ডাটাবেজে ক্যাটাগরি নামটি যেভাবে আছে ("smartWatch" বা "Smart Watch") সেটি নিশ্চিত হয়ে নিন
   const { data, isLoading, error } = useCategoryProductsQuery("smartWatch");
 
   if (isLoading) return <LoadingSpinner />;
@@ -24,8 +23,7 @@ const SmartWatch = () => {
 
   return (
     <section className="min-h-screen bg-[#020617] pb-24">
-      <div className="max-w-375 mx-auto px-4 sm:px-6 lg:px-8">
-        {/* --- FEATURES GRID --- */}
+      <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
           {[
             {

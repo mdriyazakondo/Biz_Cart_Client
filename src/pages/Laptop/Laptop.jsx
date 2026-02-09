@@ -25,7 +25,7 @@ const Laptop = () => {
 
   return (
     <section className="min-h-screen bg-[#020617] pb-24 pt-32 mt-20">
-      <div className="max-w-400 mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-380 mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* --- HEADER SECTION --- */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
           <div className="w-full md:w-auto">

@@ -65,7 +65,7 @@ const MyProduct = () => {
 
   return (
     <div className="min-h-screen  p-4 md:p-10 text-gray-200">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-380 mx-auto">
         {/* Header Section */}
         <div className="flex justify-between items-center mb-8">
           <div>

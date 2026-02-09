@@ -71,7 +71,7 @@ const Sidebar = ({ setSidebarOpen, sidebarOpen }) => {
       </div>
 
       {/* NAV */}
-      <nav className="px-4 py-6 space-y-1 min-h-[85vh]">
+      <nav className="px-4 py-6 space-y-1 min-h-[84vh]">
         <SidebarItem
           onClick={() => setSidebarOpen(false)}
           to=""
@@ -105,6 +105,12 @@ const Sidebar = ({ setSidebarOpen, sidebarOpen }) => {
               to="my-products"
               icon={FiUsers}
               label="MY Products"
+            />
+            <SidebarItem
+              onClick={() => setSidebarOpen(false)}
+              to="my-products-order"
+              icon={FiUsers}
+              label="MY Products Order"
             />
           </>
         )}

@@ -2,7 +2,9 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import { motion } from "framer-motion"; // motion ইমপোর্ট করা হয়েছে
 
+// Swiper Styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -32,7 +34,8 @@ const HeroSection = () => {
   ];
 
   return (
-    <div className="w-full h-[550px] md:h-[650px] lg:h-[750px] bg-[#020617]  ">
+    // Height fixed: h-screen অথবা min-h-[600px] ব্যবহার করা ভালো
+    <div className="w-full min-h-screen md:h-[90vh] bg-[#020617] overflow-hidden pt-20 md:pt-0">
       <Swiper
         spaceBetween={0}
         centeredSlides={true}
@@ -44,81 +47,83 @@ const HeroSection = () => {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="relative w-full h-full bg-[#020617] flex items-center overflow-hidden">
-              {/* Background Decorative Glows */}
-              <div className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px]"></div>
-              <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-indigo-600/10 rounded-full blur-[120px]"></div>
+            <div className="relative w-full h-full bg-[#020617] flex items-center py-12 md:py-0">
+              {/* Background Decorative Glows - Hidden on small screens for performance */}
+              <div className="absolute top-1/4 -left-20 w-64 h-64 md:w-96 md:h-96 bg-blue-600/10 rounded-full blur-[80px] md:blur-[120px]"></div>
+              <div className="absolute bottom-1/4 -right-20 w-64 h-64 md:w-96 md:h-96 bg-indigo-600/10 rounded-full blur-[80px] md:blur-[120px]"></div>
 
-              <div className="max-w-360 mx-auto px-6 lg:px-16 flex flex-col md:flex-row items-center justify-between w-full h-full relative z-10">
+              <div className="container mx-auto px-6 lg:px-16 flex flex-col md:flex-row items-center justify-between gap-10 relative z-10">
                 {/* Content Side */}
-                <div className="w-full md:w-1/2 text-center md:text-left order-2 md:order-1 pb-10 md:pb-0">
-                  <motion-div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                <div className="w-full md:w-1/2 text-center md:text-left order-2 md:order-1">
+                  <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8 }}
                   >
-                    <span className="bg-slate-800/50 text-blue-400 border border-slate-700/50 text-[10px] md:text-xs font-black px-5 py-2 rounded-full uppercase tracking-[0.3em] inline-block mb-6">
+                    <span className="bg-slate-800/50 text-blue-400 border border-slate-700/50 text-[10px] md:text-xs font-bold px-4 py-2 rounded-full uppercase tracking-widest inline-block mb-4">
                       {slide.subtitle}
                     </span>
 
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mt-4 leading-[0.9] tracking-tighter">
+                    <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black text-white leading-tight tracking-tighter">
                       {slide.title.split(" ").slice(0, -1).join(" ")}{" "}
                       <span className={`${slide.accent}`}>
                         {slide.title.split(" ").pop()}
                       </span>
                     </h1>
 
-                    <p className="text-slate-400 mt-6 text-sm md:text-xl max-w-md mx-auto md:mx-0 leading-relaxed font-medium">
+                    <p className="text-slate-400 mt-4 text-sm md:text-lg max-w-md mx-auto md:mx-0 leading-relaxed">
                       {slide.desc}
                     </p>
 
-                    <div className="mt-10 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-8">
+                    <div className="mt-8 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6 md:gap-8">
                       <button
-                        className={`${slide.btnBg} text-white px-10 py-5 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-4 hover:scale-105 transition-all shadow-2xl shadow-blue-900/20 group w-fit`}
+                        className={`${slide.btnBg} text-white px-8 py-4 md:px-10 md:py-5 rounded-2xl font-bold text-xs uppercase tracking-widest flex items-center gap-3 hover:scale-105 transition-all shadow-xl w-full sm:w-auto justify-center`}
                       >
-                        SHOP NOW{" "}
-                        <AiOutlineArrowRight
-                          className="group-hover:translate-x-2 transition-transform"
-                          strokeWidth={40}
-                        />
+                        SHOP NOW <AiOutlineArrowRight />
                       </button>
 
                       <div className="flex flex-col items-center md:items-start sm:border-l border-slate-800 sm:pl-8">
-                        <span className="text-2xl md:text-4xl font-black text-white tracking-tighter">
+                        <span className="text-2xl md:text-4xl font-black text-white">
                           {slide.offer}
                         </span>
-                        <span className="text-[9px] md:text-[10px] text-slate-500 font-black uppercase tracking-[0.2em]">
+                        <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">
                           Limited Period
                         </span>
                       </div>
                     </div>
-                  </motion-div>
+                  </motion.div>
                 </div>
 
                 {/* Image Side */}
-                <div className="w-full md:w-1/2 flex items-center justify-center order-1 md:order-2 pt-10 md:pt-0">
-                  <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px] lg:w-[550px] lg:h-[550px]">
+                <div className="w-full md:w-1/2 flex items-center justify-center order-1 md:order-2">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8 }}
+                    className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px]"
+                  >
                     {/* Rotating Ring */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/30 to-transparent rounded-full animate-spin-[10s_linear_infinite] border border-blue-500/10"></div>
+                    <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent rounded-full animate-spin-[15s_linear_infinite] border border-blue-500/10"></div>
 
                     {/* Main Image Container */}
-                    <div className="absolute inset-4 md:inset-8 bg-[#0f172a] rounded-full shadow-[0_0_100px_rgba(30,58,138,0.3)] overflow-hidden border-8 border-[#1e293b]/50">
+                    <div className="absolute inset-3 md:inset-6 bg-[#0f172a] rounded-full shadow-2xl overflow-hidden border-4 md:border-8 border-[#1e293b]/50">
                       <img
                         src={slide.img}
                         alt={slide.title}
-                        className="w-full h-full object-cover transform hover:scale-110 transition-all duration-1000 grayscale-[20%] hover:grayscale-0"
+                        className="w-full h-full object-cover transform hover:scale-110 transition-all duration-700"
                       />
                     </div>
 
                     {/* Badge */}
-                    <div className="absolute top-10 right-0 bg-white text-slate-950 p-4 md:p-6 rounded-3xl shadow-2xl hidden sm:block -rotate-6">
-                      <p className="text-[8px] md:text-[10px] font-black text-slate-400 uppercase tracking-tighter">
+                    <div className="absolute -top-2 -right-2 md:top-10 md:right-0 bg-white text-slate-950 p-3 md:p-5 rounded-2xl md:rounded-3xl shadow-2xl rotate-12 md:-rotate-6">
+                      <p className="text-[8px] md:text-[10px] font-bold text-slate-500 uppercase">
                         Verified Tech
                       </p>
-                      <p className="text-sm md:text-xl font-black leading-none">
+                      <p className="text-xs md:text-lg font-black leading-none">
                         2026 Model
                       </p>
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             </div>

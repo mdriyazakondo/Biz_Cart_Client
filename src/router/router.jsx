@@ -26,6 +26,7 @@ import SmartWatch from "../pages/SmartWatch/SmartWatch";
 import NewProducts from "../pages/NewProducts/NewProducts";
 import BestProducts from "../pages/BestProducts/BestProducts";
 import FlashSale from "../pages/FlashSale/FlashSale";
+import MyProductsOrder from "../pages/Dashboard/Sellers/MyProductsOrder/MyProductsOrder";
 
 export const router = createBrowserRouter([
   {
@@ -54,9 +55,9 @@ export const router = createBrowserRouter([
       {
         path: "add-to-cart",
         element: (
-          <Users>
-            <AddToCart />{" "}
-          </Users>
+          <PrivateRoute>
+            <AddToCart />
+          </PrivateRoute>
         ),
       },
     ],
@@ -110,6 +111,14 @@ export const router = createBrowserRouter([
         element: (
           <Seller>
             <MyProduct />
+          </Seller>
+        ),
+      },
+      {
+        path: "my-products-order",
+        element: (
+          <Seller>
+            <MyProductsOrder />
           </Seller>
         ),
       },
