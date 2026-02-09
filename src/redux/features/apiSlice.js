@@ -1,7 +1,7 @@
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://biz-cart-server.vercel.app/api/",
+  baseUrl: "http://localhost:3000/api/",
   credentials: "include",
 });
 
