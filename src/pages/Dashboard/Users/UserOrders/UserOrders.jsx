@@ -144,7 +144,7 @@ const UserOrders = () => {
                     {/* Delete order */}
 
                     <td className="py-5 px-6 text-nowrap text-center">
-                      {order.paymentStatus === "paid" ? (
+                      {order.status === "Delivered" ? (
                         <div className="flex cursor-pointer items-center justify-center gap-2 mx-auto bg-green-500/10 text-green-500 border border-green-500/20 py-2 px-4 rounded-lg w-fit">
                           <MdCheckCircleOutline className="text-lg" />
                           <span className="text-xs font-bold uppercase tracking-wider">

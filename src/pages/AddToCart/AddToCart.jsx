@@ -106,6 +106,7 @@ const AddToCart = () => {
         price: item.price,
         authorEmail: item.authorEmail,
         authorName: item.authorName,
+        productName: item.productName,
       })),
       totalAmount: Number(totalAmount.toFixed(2)),
       paymentMethod: "Cash On Delivery",

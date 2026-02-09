@@ -96,7 +96,6 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = async (addToCartData) => {
-    // 1️⃣ Check if user is logged in
     if (!users?.email) {
       return Swal.fire({
         icon: "warning",
@@ -159,7 +158,7 @@ const ProductDetails = () => {
       });
     }
   };
-
+  console.log(response);
   if (isLoading) return <ProductSkeleton />;
   if (isError)
     return (

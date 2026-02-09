@@ -1,12 +1,5 @@
-import React, { useState } from "react";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import Swal from "sweetalert2";
-import {
-  useMyAllProductQuery,
-  useProductDeleteMutation,
-} from "../../../../redux/features/product/productApi";
+import { useMyAllProductQuery } from "../../../../redux/features/product/productApi";
 import LoadingSpinner from "../../../../components/LogdingSpnner/LoadingSpnner";
-import UpdateProduct from "../../MyProduct/components/UpdateProduct";
 
 const AllProducts = () => {
   const { data, isLoading } = useMyAllProductQuery();
