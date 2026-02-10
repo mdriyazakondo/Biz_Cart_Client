@@ -8,7 +8,7 @@ import LoadingSpinner from "../../components/LogdingSpnner/LoadingSpnner";
 
 const Laptop = () => {
   // Category name ta dynamic ba properly cased rakha bhalo
-  const { data, isLoading, error } = useCategoryProductsQuery("Laptop");
+  const { data, isLoading, error } = useCategoryProductsQuery("Laptops");
 
   if (isLoading) return <LoadingSpinner />;
 

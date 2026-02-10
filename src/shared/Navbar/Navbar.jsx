@@ -119,7 +119,7 @@ const Navbar = () => {
 
       {/* MAIN NAVBAR */}
       <nav className="px-4 md:px-10 py-4">
-        <div className="max-w-345 mx-auto flex items-center justify-between">
+        <div className="max-w-365 mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setNav(true)}

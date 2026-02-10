@@ -16,6 +16,7 @@ const FeaturedProductsCart = ({ product }) => {
       )
     : 0;
 
+  console.log(product.discountPrice);
   const handleWishlist = async (product) => {
     if (!users?.email) {
       return Swal.fire({
@@ -161,9 +162,9 @@ const FeaturedProductsCart = ({ product }) => {
         />
 
         {/* Dynamic Discount Badge */}
-        {discountPercent > 0 && (
+        {product.discountPrice > 0 && (
           <div className="absolute top-4 left-4 bg-amber-500 text-slate-950 text-[10px] font-black px-3 py-1.5 rounded-xl shadow-xl uppercase tracking-tighter">
-            {discountPercent}% OFF
+            {product.discountPrice}% OFF
           </div>
         )}
 
